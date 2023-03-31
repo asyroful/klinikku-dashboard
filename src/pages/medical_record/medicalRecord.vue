@@ -69,24 +69,25 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                
+                  <tr v-for="(patient, index ) in patients" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
-                          01
+                        {{ index+1 }}
                       </td>
                       <td class="px-3 py-4">
-                          1 Juni 2002
+                        {{ patient.created_at }}
                       </td>
                       <td scope="row" class="px-3 py-4 dark:text-white">
-                          Lorem Ipsum
+                        {{ patient.name }}
                       </td>
                       <td class="px-3 py-4">
-                          Demam
+                        {{ patient.complaint }}
                       </td>
                       <td class="px-3 py-4">
                           dr. lorem
                       </td>
                       <td class="px-3 py-4">
-                          demam
+                        {{ patient.diagnose }}
                       </td>
                       <td class="px-3 py-4">
                           lorem ipsum
@@ -122,19 +123,30 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data() {
-    return {
-      medicalRecord: []
-    }
-  },
-  async mounted() {
-    const token = localStorage.getItem("token")
-    const response = await axios.get('record', { headers: {"Authorization" : `Bearer ${token}`} })
-    this.medicalRecord = response.data
-    console.log(response) 
+  return {
+    patients: [
+      { name: 'Asyroful', created_at: '01/02/23', complaint: 'Demam', diagnose: 'Masuk Angin'  },
+      { name: 'Boy', created_at: '01/02/23', complaint: 'Batuk', diagnose: 'Masuk Angin'  },
+      { name: 'Albert', created_at: '02/02/23', complaint: 'Pilek', diagnose: 'Masuk Angin'  },
+      { name: 'Vyn', created_at: '03/02/23', complaint: 'Panas Dalam', diagnose: 'Masuk Angin'  },
+      { name: 'Asyroful', created_at: '01/02/23', complaint: 'Demam', diagnose: 'Masuk Angin'  },
+      { name: 'Boy', created_at: '01/02/23', complaint: 'Batuk', diagnose: 'Masuk Angin'  },
+      { name: 'Albert', created_at: '02/02/23', complaint: 'Pilek', diagnose: 'Masuk Angin'  },
+      { name: 'Vyn', created_at: '03/02/23', complaint: 'Panas Dalam', diagnose: 'Masuk Angin'  },
+      
+    ]
   }
+}
+,
+  // async mounted() {
+  //   const token = localStorage.getItem("token")
+  //   const response = await axios.get('record', { headers: {"Authorization" : `Bearer ${token}`} })
+  //   this.medicalRecord = response.data
+  //   console.log(response) 
+  // }
 }
 </script>
 

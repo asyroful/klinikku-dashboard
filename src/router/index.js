@@ -5,10 +5,12 @@ import login from '../pages/master/login'
 import home from '../pages/home'
 import medicalRecord from '../pages/medical_record/medicalRecord'
 import addMedicalRecord from '../pages/medical_record/addMedicalRecord'
-import medecin from '../pages/medecin/medecin'
+import medicine from '../pages/medicine/medicine'
+import addMedicine from '../pages/medicine/addMedicine'
 import patientData from '../pages/patient/patientData'
 import addPatientData from '../pages/patient/addPatientData'
 import doctorData from '../pages/doctor/doctorData'
+import addDoctorData from '../pages/doctor/addDoctorData'
 import adminData from '../pages/admin/adminData'
 import report from '../pages/report/report'
 
@@ -34,9 +36,14 @@ import report from '../pages/report/report'
           component:addMedicalRecord
         },
         {
-          name: 'Medecin',
-          path: '/medecin',
-          component:medecin
+          name: 'Medicine',
+          path: '/medicine',
+          component:medicine
+        },
+        {
+          name: 'Add Medicine',
+          path: '/medicine/add',
+          component:addMedicine
         },
         {
           name: 'Patient Data',
@@ -52,6 +59,11 @@ import report from '../pages/report/report'
           name: 'Doctor Data',
           path: '/doctor',
           component:doctorData
+        },
+        {
+          name: 'Add Doctor Data',
+          path: '/doctor/add',
+          component:addDoctorData
         },
         {
           name: 'Admin Data',

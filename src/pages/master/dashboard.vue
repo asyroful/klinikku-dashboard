@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <!-- Side bar -->
-    <aside class="w-[268px] fixed left-0 top-0 mt-20 h-screen bg-white" v-show="showSide">
+    <aside class="w-[268px] fixed left-0 top-0 mt-16 h-screen bg-white" v-show="showSide">
       <div class="h-[calc(100vh-50px)] bg-white py-5">
         <div class="flex flex-col justify-between h-full px-2">
           <div class=" flex flex-col justify-between text-gray-600">
@@ -23,7 +23,7 @@
               </svg>
               Rekam Medis
             </router-link>
-            <router-link to="/medecin" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+            <router-link to="/medicine" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
               <svg class="mr-2" width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.53719 8.58753L3.50549 9.77872C2.86428 10.1547 2.64459 10.9873 3.0148 11.6384C3.38497 12.2895 4.20488 12.5126 4.84608 12.1367L6.87779 10.9455L5.53719 8.58753ZM3.17034 9.18925C2.20853 9.75312 1.87901 11.002 2.43429 11.9787C2.98959 12.9554 4.21942 13.29 5.18123 12.7262L7.64833 11.2797C7.72846 11.2327 7.75594 11.1286 7.70966 11.0473L5.86634 7.80509C5.82006 7.72368 5.71757 7.69581 5.63744 7.74281L3.17034 9.18925Z" fill="currentColor"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6.20151 8.39455L8.37836 7.11828C8.9394 6.78934 9.65682 6.98456 9.98074 7.55429C10.3047 8.12405 10.1124 8.85254 9.55138 9.18148L7.37453 10.4577L6.20151 8.39455ZM8.04321 6.52881C8.92486 6.0119 10.0522 6.31865 10.5612 7.21395C11.0702 8.10924 10.7682 9.25407 9.88653 9.77098L7.27432 11.3025C7.19415 11.3495 7.09166 11.3216 7.04538 11.2402L5.36963 8.29279C5.32338 8.21141 5.35083 8.10734 5.431 8.06034L8.04321 6.52881Z" fill="currentColor"/>
@@ -82,7 +82,7 @@
       </div>
     </aside>
     <div class="flex-1 ml-[268px] h-full bg-gray-400">
-      <div class="fixed top-0 right-0 h-20 bg-white flex justify-between items-center px-5 w-full py-2.5 z-10">
+      <div class="fixed top-0 right-0 h-16 bg-white flex justify-between items-center px-5 w-full py-2.5 z-10">
         <div class="h-20 pl-[90px] flex justify-center items-center ">
           <svg width="35" height="39" viewBox="0 0 254 281" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5.91514 270.516L3.81622 263.694L20.3691 246.903H29.9573L5.91514 270.516ZM0 280.295V246.903H8.10946V280.295H0ZM21.4185 280.295L9.01581 263.981L14.5016 259.258L30.8637 280.295H21.4185Z" fill="#0278F5"/>
@@ -144,7 +144,7 @@
         </div>
       </div>
       <!-- Main  -->
-      <div class="mt-20 bg-surface p-6">
+      <div class="mt-16 bg-surface py-5 px-3">
         <router-view></router-view>
       </div>
     </div>

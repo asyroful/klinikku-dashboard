@@ -2,9 +2,9 @@
   <div>
     <div class="bg-white rounded-xl p-6">
       <div class="flex justify-between mb-6">
-        <h3 class="text-2xl font-medium text-left py-2">Data Dokter</h3>
-        <router-link to="/doctor/add">
-          <button type="button" class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-light rounded-xl text-sm py-2 px-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><span class="pr-2">+</span>Tambah Pasien Baru</button>
+        <h3 class="text-2xl font-medium text-left py-2">Resepsi Obat</h3>
+        <router-link to="/medicine/add">
+          <button type="button" class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-light rounded-xl text-sm py-2 px-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><span class="pr-2">+</span>Tambah Rekam Medis</button>
         </router-link>
       </div>
       <div>
@@ -25,36 +25,24 @@
               <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                       <th scope="col" class="px-3 py-3">
-                          Nomer
+                          Nomor
                       </th>
                       <th scope="col" class="px-3 py-3">
                           <div class="flex items-center">
-                              Nama Pasien
-                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            Nama Obat
+                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
                           </div>
                       </th>
                       <th scope="col" class="px-3 py-3">
                           <div class="flex items-center">
-                              Jenis Kelamin
-                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            Keterangan
+                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
                           </div>
                       </th>
                       <th scope="col" class="px-3 py-3">
                           <div class="flex items-center">
-                              Tanggal lahir/umur
-                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                              Alamat
-                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                              Nomor Telepon
-                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            Stock Barang
+                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
                           </div>
                       </th>
                       <th scope="col" class="px-3 py-3">
@@ -63,24 +51,19 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="doctor in doctors" :key="doctor.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                      <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ doctor.id }}
-                      </th>
-                      <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ doctor.name }}
-                      </th>
-                      <td class="px-3 py-4">
-                        {{ doctor.gender }}
+                
+                  <tr v-for="(medicine, index ) in medicines" :key="medicine.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                      <td scope="row" class="px-3 py-4 dark:text-white">
+                        {{ index+1 }}
+                      </td>
+                      <td scope="row" class="px-3 py-4 dark:text-white">
+                        {{ medicine.name }}
                       </td>
                       <td class="px-3 py-4">
-                        {{ doctor.birth }}
+                        {{ medicine.information }}
                       </td>
                       <td class="px-3 py-4">
-                        {{ doctor.address }}
-                      </td>
-                      <td class="px-3 py-4">
-                        {{ doctor.phone }}
+                        {{ medicine.stock }}
                       </td>
                       <td class="px-3 py-4">
                         <div class="flex gap-1">
@@ -103,13 +86,12 @@
                           </div>
                         </div>
                       </td>
-                  </tr>  
+                  </tr>
               </tbody>
           </table>
       </div>
 
     </div>
-
   </div>
 </template>
 
@@ -117,18 +99,25 @@
 // import axios from 'axios'
 export default {
   data() {
-    return {
-      doctors: [
-        { id: 20310001, name: 'dr.Irsyad Musthofa', gender:'L', birth: '01/06/81', address: 'Trucuk, Klaten', phone: '62892317131719' },
-        { id: 20310002, name: 'drg.Rina Kurniawati', gender:'P', birth: '05/07/90', address: 'Trucuk, Klaten', phone: '62892317131719' },
-      ]
-    }
-  },
+  return {
+    medicines: [
+      { name: 'Sanmol', information: "Obat Paracetamol", stock: 24  },
+      { name: 'Tera-F', information: "Obat Flu", stock: 12  },
+      { name: 'Yusimox', information: "Obat Amoxilin", stock: 40  },
+      { name: 'Dextim', information: "Obat Pereda nyeri alergi", stock: 32  },
+      { name: 'Sanmol', information: "Obat Paracetamol", stock: 24  },
+      { name: 'Tera-F', information: "Obat Flu", stock: 12  },
+      { name: 'Yusimox', information: "Obat Amoxilin", stock: 40  },
+      { name: 'Dextim', information: "Obat Pereda nyeri alergi", stock: 32  },
+    ],
+  }
+}
+,
   // async mounted() {
   //   const token = localStorage.getItem("token")
-  //   const response = await axios.get('user?role=doctor', { headers: {"Authorization" : `Bearer ${token}`} })
-  //   this.doctors = response.data.data
-  //   console.log(doctors)
+  //   const response = await axios.get('record', { headers: {"Authorization" : `Bearer ${token}`} })
+  //   this.medicalRecord = response.data
+  //   console.log(response) 
   // }
 }
 </script>

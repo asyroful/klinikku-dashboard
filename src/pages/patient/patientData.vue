@@ -16,7 +16,7 @@
                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
               </svg>
              </div>
-            <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Search..." required>
+            <input v-model="search" type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Search..." required>
           </div>
         </form>     
       </div>
@@ -63,7 +63,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(patient, index) in patients" :key="patient.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(patient, index) in filteredPatient" :key="patient.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index+1 }}
                       </th>
@@ -118,6 +118,7 @@
 export default {
   data() {
     return {
+      search: '',
       patients: [
         { id: 20310001, name: 'Asyroful', gender:'L', birth: '01/06/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
         { id: 20310002, name: 'Siti', gender:'P', birth: '02/08/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
@@ -134,6 +135,13 @@ export default {
     deletePatient(id){
       let deletePatientList = this.patients.filter((e) => e.id != id);
       this.patients = deletePatientList;
+    }
+  },
+  computed : {
+    filteredPatient: function() {
+      return this.patients.filter(patient => 
+        patient.name.toLowerCase().includes(this.search.toLowerCase())
+      );
     }
   }
   // async mounted() {

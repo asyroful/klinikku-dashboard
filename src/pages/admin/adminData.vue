@@ -16,7 +16,7 @@
                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
               </svg>
              </div>
-            <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Search..." required>
+            <input v-model="search" type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Search..." required>
           </div>
         </form>     
       </div>
@@ -63,7 +63,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(admin, index) in admins" :key="admin.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(admin, index) in filteredAdmin" :key="admin.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index + 1 }}
                       </th>
@@ -84,7 +84,7 @@
                       </td>
                       <td class="px-3 py-4">
                         <div class="flex gap-1">
-                          <div class="p-1 rounded bg-primary">
+                          <div class="p-1 rounded bg-primary cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M5.79375 13.4999H3C2.86739 13.4999 2.74022 13.4473 2.64645 13.3535C2.55268 13.2597 2.5 13.1326 2.5 12.9999V10.2062C2.49978 10.1413 2.51236 10.0769 2.53702 10.0169C2.56169 9.95682 2.59796 9.90222 2.64375 9.85619L10.1438 2.3562C10.1903 2.30895 10.2457 2.27144 10.3069 2.24583C10.3681 2.22022 10.4337 2.20703 10.5 2.20703C10.5663 2.20703 10.632 2.22022 10.6931 2.24583C10.7543 2.27144 10.8097 2.30895 10.8563 2.3562L13.6438 5.1437C13.691 5.19022 13.7285 5.24568 13.7541 5.30684C13.7797 5.368 13.7929 5.43364 13.7929 5.49995C13.7929 5.56625 13.7797 5.63189 13.7541 5.69305C13.7285 5.75421 13.691 5.80967 13.6438 5.85619L6.14375 13.3562C6.09773 13.402 6.04313 13.4383 5.98307 13.4629C5.92301 13.4876 5.85868 13.5002 5.79375 13.4999Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M8.5 4L12 7.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -92,7 +92,7 @@
                               <path d="M5.96875 13.4688L2.53125 10.0312" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                           </div>
-                          <div class="p-1 rounded bg-red-600">
+                          <div @click="deleteAdmin(admin.id)" class="p-1 rounded bg-red-600 cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M13.5 3.5H2.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M6.5 6.5V10.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -118,6 +118,7 @@
 export default {
   data() {
     return {
+      search: '',
       admins: [
         { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
         { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
@@ -128,6 +129,19 @@ export default {
       ]
     }
   },
+  methods: {
+    deleteAdmin(id){
+      let deleteAdminList = this.admins.filter((e) => e.id != id);
+      this.admins = deleteAdminList;
+    }
+  },
+  computed : {
+    filteredAdmin: function() {
+      return this.admins.filter(admin => 
+        admin.name.toLowerCase().includes(this.search.toLowerCase())
+      );
+    }
+  }
   // async mounted() {
   //   const token = localStorage.getItem("token")
   //   const response = await axios.get('user?role=admin', { headers: {"Authorization" : `Bearer ${token}`} })

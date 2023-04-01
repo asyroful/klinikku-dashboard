@@ -11,7 +11,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Pasien</p>
-          <h1 class="mt-1 font-bold text-3xl">8</h1>
+          <h1 class="mt-1 font-bold text-3xl">64</h1>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Dokter</p>
-          <h1 class="mt-1 font-bold text-3xl">8</h1>
+          <h1 class="mt-1 font-bold text-3xl">2</h1>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Admin</p>
-          <h1 class="mt-1 font-bold text-3xl">8</h1>
+          <h1 class="mt-1 font-bold text-3xl">4</h1>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Obat</p>
-          <h1 class="mt-1 font-bold text-3xl">8</h1>
+          <h1 class="mt-1 font-bold text-3xl">24</h1>
         </div>
       </div>
     </div>

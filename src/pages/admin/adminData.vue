@@ -3,7 +3,9 @@
     <div class="bg-white rounded-xl p-6">
       <div class="flex justify-between mb-6">
         <h3 class="text-2xl font-medium text-left py-2">Data Admin</h3>
-        <button type="button" class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-light rounded-xl text-sm py-2 px-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><span class="pr-2">+</span>Tambah Pasien Baru</button>
+        <router-link to="/admin/add">
+          <button type="button" class="text-white bg-primary hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-light rounded-lg text-sm py-2 px-4 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"><span class="pr-2">+</span>Tambah Admin Baru</button>
+        </router-link>
       </div>
       <div>
         <form class="flex items-center w-full mb-6">
@@ -61,9 +63,9 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="admin in admins" :key="admin.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(admin, index) in admins" :key="admin.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{ admin.id }}
+                        {{ index + 1 }}
                       </th>
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ admin.name }}
@@ -112,19 +114,26 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data() {
     return {
-      admins: []
+      admins: [
+        { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
+        { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
+        { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
+        { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
+        { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
+        { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
+      ]
     }
   },
-  async mounted() {
-    const token = localStorage.getItem("token")
-    const response = await axios.get('user?role=admin', { headers: {"Authorization" : `Bearer ${token}`} })
-    this.admins = response.data.data
-    // console.log(admins)
-  }
+  // async mounted() {
+  //   const token = localStorage.getItem("token")
+  //   const response = await axios.get('user?role=admin', { headers: {"Authorization" : `Bearer ${token}`} })
+  //   this.admins = response.data.data
+  //   console.log(admins)
+  // }
 }
 </script>
 

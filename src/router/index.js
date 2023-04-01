@@ -12,6 +12,9 @@ import addPatientData from '../pages/patient/addPatientData'
 import doctorData from '../pages/doctor/doctorData'
 import addDoctorData from '../pages/doctor/addDoctorData'
 import adminData from '../pages/admin/adminData'
+import addAdminData from '../pages/admin/addAdminData'
+import pharmacistData from '../pages/pharmacist/pharmacistData'
+import addPharmacistData from '../pages/pharmacist/addPharmacistData'
 import report from '../pages/report/report'
 
   const routes = [
@@ -69,6 +72,21 @@ import report from '../pages/report/report'
           name: 'Admin Data',
           path: '/admin',
           component:adminData
+        },
+        {
+          name: 'Add Admin Data',
+          path: '/admin/add',
+          component:addAdminData
+        },
+        {
+          name: 'Pharmacist Data',
+          path: '/pharmacist',
+          component:pharmacistData
+        },
+        {
+          name: 'Add Pharmacist Data',
+          path: '/pharmacist/add',
+          component:addPharmacistData
         },
         {
           name: 'Report',

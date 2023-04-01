@@ -62,6 +62,9 @@
               <router-link to="/admin" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Data Admin
               </router-link>
+              <router-link to="/pharmacist" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+                Data Apoteker
+              </router-link>
             </div>
             <router-link to="/report" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
               <svg class="mr-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">

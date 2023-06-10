@@ -63,7 +63,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(patient, index) in filteredPatient" :key="patient.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(patient, index) in patients" :key="patient.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index+1 }}
                       </th>
@@ -114,21 +114,12 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   data() {
     return {
       search: '',
-      patients: [
-        { id: 20310001, name: 'Asyroful', gender:'L', birth: '01/06/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310002, name: 'Siti', gender:'P', birth: '02/08/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310003, name: 'Sinta', gender:'P', birth: '03/05/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310004, name: 'Doni', gender:'L', birth: '04/04/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310001, name: 'Asyroful', gender:'L', birth: '01/06/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310002, name: 'Siti', gender:'P', birth: '02/08/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310003, name: 'Sinta', gender:'P', birth: '03/05/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310004, name: 'Doni', gender:'L', birth: '04/04/02', address: 'Jatimulyo, Lowokwaru, Malang', phone: '62892317131719' },
-      ]
+      patients: []
     }
   },
   methods: {
@@ -142,14 +133,20 @@ export default {
       return this.patients.filter(patient => 
         patient.name.toLowerCase().includes(this.search.toLowerCase())
       );
-    }
+    },
+    // ...mapGetters({token: 'getToken'}),
+  },
+  async mounted() {
+    const token = localStorage.token
+      axios.get('patient', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.patients = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
-  // async mounted() {
-  //   const token = localStorage.getItem("token")
-  //   const response = await axios.get('user?role=patient', { headers: {"Authorization" : `Bearer ${token}`} })
-  //   this.patients = response.data.data
-  //   // console.log(patients)
-  // }
 }
 </script>
 

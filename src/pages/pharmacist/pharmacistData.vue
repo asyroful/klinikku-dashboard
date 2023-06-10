@@ -63,7 +63,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(pharmacist, index) in filteredPharmacist" :key="pharmacist.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(pharmacist, index) in pharmacists" :key="pharmacist.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index+1 }}
                       </th>
@@ -114,15 +114,13 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+// import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
       search: '',
-      pharmacists: [
-        { id: 20310001, name: 'Susi Astuti, A.Md', gender:'P', birth: '01/06/97', address: 'Trucuk, Klaten', phone: '62892317131719' },
-        { id: 20310002, name: 'Dini Permata, A.Md', gender:'P', birth: '05/07/99', address: 'Trucuk, Klaten', phone: '62892317131719' },
-      ]
+      pharmacists: []
     }
   },
   methods: {
@@ -136,14 +134,20 @@ export default {
       return this.pharmacists.filter(pharmacist => 
         pharmacist.name.toLowerCase().includes(this.search.toLowerCase())
       );
-    }
+    },
+    // ...mapGetters({token: 'getToken'})
+  },
+  async mounted() {
+    const token = localStorage.token
+      axios.get('user?role=pharmacist', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.pharmacists = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
-  // async mounted() {
-  //   const token = localStorage.getItem("token")
-  //   const response = await axios.get('user?role=pharmacist', { headers: {"Authorization" : `Bearer ${token}`} })
-  //   this.pharmacists = response.data.data
-  //   console.log(pharmacists)
-  // }
 }
 </script>
 

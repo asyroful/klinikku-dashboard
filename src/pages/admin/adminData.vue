@@ -63,7 +63,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(admin, index) in filteredAdmin" :key="admin.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(admin, index) in admins" :key="admin.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                       <th scope="row" class="px-3 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         {{ index + 1 }}
                       </th>
@@ -114,19 +114,13 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+// import {mapGetters} from 'vuex'
 export default {
   data() {
     return {
       search: '',
-      admins: [
-        { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
-        { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
-        { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
-        { id: 20310001, name: 'Asyroful Munna', gender:'L', birth: '01/06/02', address: 'Trucuk, Klaten', phone: '62892317131719' },
-        { id: 20310002, name: 'Ammar Hisyam', gender:'L', birth: '05/07/02', address: 'Lowokwaru, Malang', phone: '62892317131719' },
-      ]
+      admins: []
     }
   },
   methods: {
@@ -140,14 +134,20 @@ export default {
       return this.admins.filter(admin => 
         admin.name.toLowerCase().includes(this.search.toLowerCase())
       );
-    }
+    },
+    // ...mapGetters({token: 'getToken'}),
+  },
+  async mounted() {
+    const token = localStorage.token
+      axios.get('user?role=admin', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.admins = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
-  // async mounted() {
-  //   const token = localStorage.getItem("token")
-  //   const response = await axios.get('user?role=admin', { headers: {"Authorization" : `Bearer ${token}`} })
-  //   this.admins = response.data.data
-  //   console.log(admins)
-  // }
 }
 </script>
 

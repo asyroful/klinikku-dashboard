@@ -52,7 +52,7 @@
               </thead>
               <tbody>
                 
-                  <tr v-for="(medicine, index ) in filteredMedicine" :key="medicine.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(medicine, index ) in medicines" :key="medicine.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
                         {{ index+1 }}
                       </td>
@@ -60,14 +60,14 @@
                         {{ medicine.name }}
                       </td>
                       <td class="px-3 py-4">
-                        {{ medicine.information }}
+                        {{ medicine.description }}
                       </td>
                       <td class="px-3 py-4">
                         {{ medicine.stock }}
                       </td>
                       <td class="px-3 py-4">
                         <div class="flex gap-1">
-                          <div class="p-1 rounded bg-primary cursor-pointer">
+                          <div @click="editItem(medicine.id)" class="p-1 rounded bg-primary cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M5.79375 13.4999H3C2.86739 13.4999 2.74022 13.4473 2.64645 13.3535C2.55268 13.2597 2.5 13.1326 2.5 12.9999V10.2062C2.49978 10.1413 2.51236 10.0769 2.53702 10.0169C2.56169 9.95682 2.59796 9.90222 2.64375 9.85619L10.1438 2.3562C10.1903 2.30895 10.2457 2.27144 10.3069 2.24583C10.3681 2.22022 10.4337 2.20703 10.5 2.20703C10.5663 2.20703 10.632 2.22022 10.6931 2.24583C10.7543 2.27144 10.8097 2.30895 10.8563 2.3562L13.6438 5.1437C13.691 5.19022 13.7285 5.24568 13.7541 5.30684C13.7797 5.368 13.7929 5.43364 13.7929 5.49995C13.7929 5.56625 13.7797 5.63189 13.7541 5.69305C13.7285 5.75421 13.691 5.80967 13.6438 5.85619L6.14375 13.3562C6.09773 13.402 6.04313 13.4383 5.98307 13.4629C5.92301 13.4876 5.85868 13.5002 5.79375 13.4999Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M8.5 4L12 7.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -96,24 +96,47 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   data() {
     return {
       search: '',
-      medicines: [
-        { id: 1, name: 'Sanmol', information: "Obat Paracetamol", stock: 24  },
-        { id: 2, name: 'Tera-F', information: "Obat Flu", stock: 12  },
-        { id: 3, name: 'Yusimox', information: "Obat Amoxilin", stock: 40  },
-        { id: 4, name: 'Dextim', information: "Obat Pereda nyeri alergi", stock: 32  },
-      ],
+      medicines: [],
+      successMessage: '',
     }
   },
+  mounted() {
+    this.fetchItems();
+  },
   methods: {
+    fetchItems(){
+      const token = localStorage.token
+      axios.get('drug', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.medicines = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     deleteMedicine(id){
-      let deleteMedicineList = this.medicines.filter((e) => e.id != id);
-      this.medicines = deleteMedicineList;
-    }
+      if (window.confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+        const token = localStorage.token
+        // Menghapus item dengan ID tertentu dari API
+        axios.delete(`drug/${id}`, {headers: { "Authorization": `Bearer ${token}` }})
+          .then(() => {
+            this.fetchItems(); // Memuat kembali daftar item setelah menghapus
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    },
+    editItem(id) {
+      // Navigasi ke halaman edit dengan menggunakan ID item
+      this.$router.push({ name: 'Edit Medicine', params: { id: id } });
+    },
   },
   computed : {
     filteredMedicine: function() {
@@ -121,13 +144,8 @@ export default {
         medicine.name.toLowerCase().includes(this.search.toLowerCase())
       );
     }
-  }
-  // async mounted() {
-  //   const token = localStorage.getItem("token")
-  //   const response = await axios.get('record', { headers: {"Authorization" : `Bearer ${token}`} })
-  //   this.medicalRecord = response.data
-  //   console.log(response) 
-  // }
+  },
+  
 }
 </script>
 

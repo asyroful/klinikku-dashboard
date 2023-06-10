@@ -21,6 +21,7 @@
         </form>     
       </div>
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <div v-if="patients.length > 0">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -70,21 +71,21 @@
               </thead>
               <tbody>
                 
-                  <tr v-for="(patient, index ) in filteredPatient" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(patient, index ) in patients" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
                         {{ index+1 }}
                       </td>
                       <td class="px-3 py-4">
-                        {{ patient.created_at }}
+                        {{ patient.date }}
                       </td>
                       <td scope="row" class="px-3 py-4 dark:text-white">
-                        {{ patient.name }}
+                        {{ patient.patient_id }}
                       </td>
                       <td class="px-3 py-4">
                         {{ patient.complaint }}
                       </td>
                       <td class="px-3 py-4">
-                          dr. lorem
+                        {{ patient.doctor_id }}
                       </td>
                       <td class="px-3 py-4">
                         {{ patient.diagnose }}
@@ -116,6 +117,10 @@
                   </tr>
               </tbody>
           </table>
+        </div>
+        <div v-else>
+          <p class="py-32 text-center">Tidak ada rekam medis yang tercatat</p>
+        </div>
       </div>
 
     </div>
@@ -123,17 +128,13 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+// import { useRouter } from 'vue-router';
 export default {
   data() {
     return {
       search: '',
-      patients: [
-        { id: 1, name: 'Asyroful', created_at: '01/02/23', complaint: 'Demam', diagnose: 'Masuk Angin'  },
-        { id: 2, name: 'Boy', created_at: '01/02/23', complaint: 'Batuk', diagnose: 'Masuk Angin'  },
-        { id: 3, name: 'Albert', created_at: '02/02/23', complaint: 'Pilek', diagnose: 'Masuk Angin'  },
-        { id: 4, name: 'Vyn', created_at: '03/02/23', complaint: 'Panas Dalam', diagnose: 'Masuk Angin'  },
-      ]
+      patients: []
     }
   },
   methods: {
@@ -147,14 +148,20 @@ export default {
       return this.patients.filter(patient => 
         patient.name.toLowerCase().includes(this.search.toLowerCase())
       );
-    }
+    },
+  },
+
+  async mounted() {
+    const token = localStorage.token
+      axios.get('record', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.patients = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
   }
-  // async mounted() {
-  //   const token = localStorage.getItem("token")
-  //   const response = await axios.get('record', { headers: {"Authorization" : `Bearer ${token}`} })
-  //   this.medicalRecord = response.data
-  //   console.log(response) 
-  // }
 }
 </script>
 

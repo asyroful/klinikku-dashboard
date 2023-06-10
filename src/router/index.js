@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
  
 import dashboard from '../pages/master/dashboard'
-import login from '../pages/master/login'
+import login from '../pages/login'
+import register from '../pages/master/register'
 import home from '../pages/home'
 import medicalRecord from '../pages/medical_record/medicalRecord'
 import addMedicalRecord from '../pages/medical_record/addMedicalRecord'
 import medicine from '../pages/medicine/medicine'
 import addMedicine from '../pages/medicine/addMedicine'
+import editMedicine from '../pages/medicine/editMedicine'
 import patientData from '../pages/patient/patientData'
 import addPatientData from '../pages/patient/addPatientData'
 import doctorData from '../pages/doctor/doctorData'
@@ -22,6 +24,7 @@ import report from '../pages/report/report'
       name: 'Dashboard',
       path: '/',
       component: dashboard,
+      // meta: { requiresAuth: true },
       children: [
         {
           name: 'Home',
@@ -47,6 +50,11 @@ import report from '../pages/report/report'
           name: 'Add Medicine',
           path: '/medicine/add',
           component:addMedicine
+        },
+        {
+          name: 'Edit Medicine',
+          path: '/medicine/edit/:id',
+          component:editMedicine
         },
         {
           name: 'Patient Data',
@@ -99,8 +107,15 @@ import report from '../pages/report/report'
       name: 'Login',
       path: '/login',
       component: login,
+      // meta: { requiresAuth: false }
+    },      
+    {
+      name: 'Register',
+      path: '/register',
+      component: register,
     }      
   ];
+
 const router = Router();
 export default router;
 function Router() {
@@ -112,10 +127,15 @@ function Router() {
 }
 
 // router.beforeEach((to, from, next) => {
-//   const isAuthenticated = true
+//   const isLoggedIn = localStorage.getItem('token'); // Periksa keberadaan token
+//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
-//   if(to.name !== 'Login' && !isAuthenticated ) next({ name: 'Login'})
-//   if(to.name === 'Login' && isAuthenticated ) next({ name: 'Home'})
-//   else next();
-// })
+//   if (requiresAuth && !isLoggedIn) {
+//     // Jika rute memerlukan token dan pengguna belum masuk, arahkan ke halaman login
+//     next('/login');
+//   } else {
+//     next('/home'); // Lanjutkan ke rute berikutnya
+//   }
+// });
+
   

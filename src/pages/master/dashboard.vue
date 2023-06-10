@@ -23,7 +23,7 @@
               </svg>
               Rekam Medis
             </router-link>
-            <router-link to="/medicine" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+            <div active-class="text-primary bg-surface" class="inline-flex relative items-center mt-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out" @click="toggleObatDrop">
               <svg class="mr-2" width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.53719 8.58753L3.50549 9.77872C2.86428 10.1547 2.64459 10.9873 3.0148 11.6384C3.38497 12.2895 4.20488 12.5126 4.84608 12.1367L6.87779 10.9455L5.53719 8.58753ZM3.17034 9.18925C2.20853 9.75312 1.87901 11.002 2.43429 11.9787C2.98959 12.9554 4.21942 13.29 5.18123 12.7262L7.64833 11.2797C7.72846 11.2327 7.75594 11.1286 7.70966 11.0473L5.86634 7.80509C5.82006 7.72368 5.71757 7.69581 5.63744 7.74281L3.17034 9.18925Z" fill="currentColor"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M6.20151 8.39455L8.37836 7.11828C8.9394 6.78934 9.65682 6.98456 9.98074 7.55429C10.3047 8.12405 10.1124 8.85254 9.55138 9.18148L7.37453 10.4577L6.20151 8.39455ZM8.04321 6.52881C8.92486 6.0119 10.0522 6.31865 10.5612 7.21395C11.0702 8.10924 10.7682 9.25407 9.88653 9.77098L7.27432 11.3025C7.19415 11.3495 7.09166 11.3216 7.04538 11.2402L5.36963 8.29279C5.32338 8.21141 5.35083 8.10734 5.431 8.06034L8.04321 6.52881Z" fill="currentColor"/>
@@ -32,8 +32,26 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M10.6181 4.58808L7.30029 1.21889L7.65578 0.85791L10.9736 4.22708L10.6181 4.58808Z" fill="currentColor"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4.52432 5.92274L2.88005 1.86652L0.671105 5.63607L4.52432 5.92274ZM3.49987 1.60741C3.2896 1.08873 2.58649 1.03641 2.30403 1.51843L0.095082 5.28798C-0.159732 5.72283 0.125168 6.27795 0.622123 6.31491L4.47536 6.60162C4.97228 6.63858 5.33384 6.13157 5.14415 5.66364L3.49987 1.60741Z" fill="currentColor"/>
               </svg>
-              Resepsi Obat
-            </router-link>
+              Obat
+              <svg class="ml-3" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_182_551)">
+                <path d="M7.99999 8.78132L11.3 5.48132L12.2427 6.42399L7.99999 10.6667L3.75732 6.42399L4.69999 5.48132L7.99999 8.78132Z" fill="currentColor"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_182_551">
+                <rect width="16" height="16" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+            </div>
+            <div class="pl-4 flex flex-col" v-show="showObat">
+              <router-link to="/" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+                Racikan Obat
+              </router-link>
+              <router-link to="/medicine" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+                Resepsi Obat
+              </router-link>
+            </div>
             <div active-class="text-primary bg-surface" class="inline-flex relative items-center mt-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out" @click="toggleSideDrop">
               <svg class="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 8C11.0376 8 13.5 6.65685 13.5 5C13.5 3.34315 11.0376 2 8 2C4.96243 2 2.5 3.34315 2.5 5C2.5 6.65685 4.96243 8 8 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
@@ -154,18 +172,23 @@
   </div>
 </template>
 <script>
-import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { useRouter } from 'vue-router';
-// import { response } from 'express';
+// import  {mapGetters} from 'vuex'
+
 export default {
   data() {
     return {
+      items: [],
       showDropDown: false,
       showManagementData: false,
-      showSide: true
+      showSide: true,
+      showObat: false,
     }
   },
+  computed: {
+    // ...mapGetters({token: 'getToken'})
+  },
+
   methods: {
     // hide show side bar
     toggleSideBar() {
@@ -180,41 +203,61 @@ export default {
     // toggle management data 
     toggleSideDrop() {
       this.showManagementData = !this.showManagementData
-    }
+    },
+    // toggle obat 
+    toggleObatDrop() {
+      this.showObat = !this.showObat
+    },
+    logout (){
+      let token = this.token
+      axios.post('logout', { headers: {"Authorization" : `Bearer ${token}`} })
+        .then(() => {
+          this.$router.push('/login');
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    getData() {
+      const token = this.token
+      axios.get('me', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.items = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
   },
+  
   name: 'dashboard',
-  setup() {
-    const message = ref('');
-    const router = useRouter();
+  // setup() {
+  //   const message = ref('');
+  //   const router = useRouter();
 
-    onMounted(async () => {
-      try {
-        const token = localStorage.getItem("token")
-        axios.get('me', { headers: {"Authorization" : `Bearer ${token}`} })
-        .then((response)=>{
-          console.log(response.data.data)
-        })
-        .catch((er)=>{
-          console.log( er, 'error')
-        })
-        // const {data} = await axios.get('me');
+  //   onMounted(async () => {
+  //     try {
+  //       let token = ""
+  //       axios.get('me', { headers: {"Authorization" : `Bearer ${token}`} })
+  //       .then((response)=>{
+  //         let { token } = response.data.data
+  //         this.$store.commit('setToken', token)
+  //       })
+  //       .catch((er)=>{
+  //         console.log( er, 'error')
+  //       })
+  //       // const {data} = await axios.get('me');
         
-        // message.value = `Hi ${data.name}`;
-      }catch (e) {
-        router.push('/login')
-      }
-    })
-    const logout = async () => {
-      const token = localStorage.removeItem("token")
-      axios.post('logout', { headers: {"Authorization" : `Bearer ${token}`} });
-      
-      router.push('/login');
-    }
-    return { 
-      message,
-      logout 
-    };
-  }
+  //       // message.value = `Hi ${data.name}`;
+  //     }catch (e) {
+  //       router.push('/login')
+  //     }
+  //   })
+  //   return { 
+  //     message
+  //   };
+  // }
 
 }
 </script>

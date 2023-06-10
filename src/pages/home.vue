@@ -11,7 +11,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Pasien</p>
-          <h1 class="mt-1 font-bold text-3xl">64</h1>
+          <h1 class="mt-1 font-bold text-3xl">{{ patients.length }}</h1>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Dokter</p>
-          <h1 class="mt-1 font-bold text-3xl">2</h1>
+          <h1 class="mt-1 font-bold text-3xl">{{ doctors.length }}</h1>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Admin</p>
-          <h1 class="mt-1 font-bold text-3xl">4</h1>
+          <h1 class="mt-1 font-bold text-3xl">{{ admins.length }}</h1>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="flex flex-col text-left">
           <p class="text-base">Total Obat</p>
-          <h1 class="mt-1 font-bold text-3xl">24</h1>
+          <h1 class="mt-1 font-bold text-3xl">{{ medicines.length }}</h1>
         </div>
       </div>
     </div>
@@ -74,40 +74,45 @@
         </router-link>
       </div>
       <div class="mt-5">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                      <th scope="col" class="px-3 py-3">
-                          Nomor
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Nama Pasien
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Jenis Kelamin
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(latestPatient, index ) in latestPatients" :key="latestPatient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
-                      <td scope="row" class="px-3 py-2 dark:text-white">
-                        {{ index+1 }}
-                      </td>
-                      <td scope="row" class="px-3 py-2 dark:text-white">
-                          {{ latestPatient.name }}
-                      </td>
-                      <td class="px-3 py-2">
-                          {{ latestPatient.gender }}
-                      </td>
-                  </tr>
-              </tbody>
+        <div v-if="patients.length > 0">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                  <th scope="col" class="px-3 py-3">
+                      Nomor
+                  </th>
+                  <th scope="col" class="px-3 py-3">
+                      <div class="flex items-center">
+                        Nama Pasien
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                      </div>
+                  </th>
+                  <th scope="col" class="px-3 py-3">
+                      <div class="flex items-center">
+                        Jenis Kelamin
+                        <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                      </div>
+                  </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(latestPatient, index ) in patients" :key="latestPatient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                  <td scope="row" class="px-3 py-2 dark:text-white">
+                    {{ index+1 }}
+                  </td>
+                  <td scope="row" class="px-3 py-2 dark:text-white">
+                      {{ latestPatient.name }}
+                  </td>
+                  <td class="px-3 py-2">
+                      {{ latestPatient.gender }}
+                  </td>
+              </tr>
+            </tbody>
           </table>
+        </div>
+        <div v-else>
+          <p class="py-16 text-center">Tidak ada pasien yang tercatat</p>
+        </div>
       </div>
     </div>
     <div class="p-6 rounded-xl bg-white h-72">
@@ -118,45 +123,50 @@
         </router-link>
       </div>
       <div class="mt-5">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                      <th scope="col" class="px-3 py-3">
-                          Nomor
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Nama Obat
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Stock Barang
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(medicine, index ) in medicines" :key="medicine.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
-                      <td scope="row" class="px-3 py-2 dark:text-white">
-                          {{ index+1 }}
-                      </td>
-                      <td scope="row" class="px-3 py-2 dark:text-white">
-                          {{ medicine.name}}
-                      </td>
-                      <td class="px-3 py-2">
-                          {{ medicine.stock}}
-                      </td>
-                  </tr>
-              </tbody>
+        <div v-if="medicines.length > 0">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-3 py-3">
+                            Nomor
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Nama Obat
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Stock Barang
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(medicine, index ) in medicines" :key="medicine.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                        <td scope="row" class="px-3 py-2 dark:text-white">
+                            {{ index+1 }}
+                        </td>
+                        <td scope="row" class="px-3 py-2 dark:text-white">
+                            {{ medicine.name}}
+                        </td>
+                        <td class="px-3 py-2">
+                            {{ medicine.stock}}
+                        </td>
+                    </tr>
+                </tbody>
           </table>
+        </div>
+        <div v-else>
+          <p class="py-16">Tidak ada obat yang tercatat</p>
+        </div>
       </div>
     </div>
   </div>
   <div class="mt-5"> 
-    <div class="p-6 rounded-xl bg-white h-72">
+    <div class="p-6 rounded-xl bg-white h-fit">
       <div class="flex justify-between items-center">
         <h3 class="text-xl font-medium">Data yang berkunjung hari ini</h3>
         <router-link to="/medical-record">
@@ -164,66 +174,67 @@
         </router-link>
       </div>
       <div class="mt-5">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
-                  <tr>
-                      <th scope="col" class="px-3 py-3">
-                          Nomor
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Tanggal Periksa
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Nama Pasien
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Keluhan
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Nama Dokter
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Diagnosa
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                      <th scope="col" class="px-3 py-3">
-                          <div class="flex items-center">
-                            Obat
-                            <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                          </div>
-                      </th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr v-for="(patient, index) in patients" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+        <div v-if="items.length > 0">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-3 py-3">
+                            Nomor
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Tanggal Periksa
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Nama Pasien
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Keluhan
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Nama Dokter
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Diagnosa
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                        <th scope="col" class="px-3 py-3">
+                            <div class="flex items-center">
+                              Obat
+                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(patient, index) in items" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
                           {{ index+1 }}
                       </td>
                       <td class="px-3 py-4">
-                          {{ patient.created_at }}
+                          {{ patient.date }}
                       </td>
                       <td scope="row" class="px-3 py-4 dark:text-white">
-                          {{ patient.name }}
+                          {{ patient.patient_id }}
                       </td>
                       <td class="px-3 py-4">
                           {{ patient.complaint }}
                       </td>
                       <td class="px-3 py-4">
-                          dr.Irsyad Musthofa
+                        {{ patient.doctor_id }}
                       </td>
                       <td class="px-3 py-4">
                           {{ patient.diagnose }}
@@ -232,8 +243,14 @@
                           Sanmol
                       </td>
                   </tr>
-              </tbody>
+                    
+                    
+                </tbody>
           </table>
+        </div>
+        <div v-else>
+          <p class="py-32 text-center">Tidak ada rekam medis yang tercatat</p>
+        </div>
       </div>
     </div>
   </div>
@@ -332,36 +349,71 @@
     </div>
 
   </div> -->
+  <!-- <router-link v-if="!isLoggedIn" to="/login"><button>Login</button></router-link> -->
 </template>
 
 <script>
+import axios from 'axios';
+// import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      latestPatients: [
-        { name: 'Asyroful', gender: 'L'  },
-        { name: 'Siti', gender: 'P'  },
-        { name: 'Sinta', gender: 'P'  },
-        { name: 'Doni', gender: 'L'  },
-      ],
-      medicines: [
-        { name: 'Sanmol', stock: 24  },
-        { name: 'Tera-F', stock: 12  },
-        { name: 'Yusimox', stock: 40  },
-        { name: 'Dextim', stock: 32  },
-      ],
-      patients: [
-        { name: 'Asyroful', created_at: '01/02/23', complaint: 'Demam', diagnose: 'Masuk Angin'  },
-        { name: 'Boy', created_at: '01/02/23', complaint: 'Batuk', diagnose: 'Masuk Angin'  },
-        { name: 'Albert', created_at: '02/02/23', complaint: 'Pilek', diagnose: 'Masuk Angin'  },
-        { name: 'Vyn', created_at: '03/02/23', complaint: 'Panas Dalam', diagnose: 'Masuk Angin'  },
-        { name: 'Asyroful', created_at: '01/02/23', complaint: 'Demam', diagnose: 'Masuk Angin'  },
-        { name: 'Boy', created_at: '01/02/23', complaint: 'Batuk', diagnose: 'Masuk Angin'  },
-        { name: 'Albert', created_at: '02/02/23', complaint: 'Pilek', diagnose: 'Masuk Angin'  },
-        { name: 'Vyn', created_at: '03/02/23', complaint: 'Panas Dalam', diagnose: 'Masuk Angin'  },
-      ]
+      patients: [],
+      medicines: [],
+      items: [],
+      admins: [],
+      doctors: [],
     }
-  }
+  },
+  
+  async mounted(){
+    if (!localStorage.getItem('token')) {
+      console.log(localStorage.getItem('token'), 'cek get');
+      // Jika tidak ada token, alihkan pengguna ke halaman login
+      this.$router.push('/login');
+    }
+    const token = localStorage.token
+      axios.get('record', {headers: { "Authorization": `Bearer ${token}` }})
+        .then(response => {
+          console.log(response)
+          this.items = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      axios.get('patient', { headers: { "Authorization": `Bearer ${token}`}})
+        .then(response => {
+          console.log(response)
+          this.patients = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      axios.get('drug', { headers: { "Authorization": `Bearer ${token}`}})
+        .then(response => {
+          console.log(response)
+          this.medicines = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      axios.get('user?role=doctor', { headers: { "Authorization": `Bearer ${token}`}})
+        .then(response => {
+          console.log(response)
+          this.doctors = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      axios.get('user?role=admin', { headers: { "Authorization": `Bearer ${token}`}})
+        .then(response => {
+          console.log(response)
+          this.admins = response.data.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+  },
 }
 </script>
 

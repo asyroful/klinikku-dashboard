@@ -39,11 +39,7 @@ export default {
   methods: {
     handleSubmit(event) {
       event.preventDefault();
-
-      // const config = {
-        //   headers: { Authorization: `Bearer ${token}` },
-        // };
-        
+      
         const data = { 
           name: this.name,
           description: this.description,

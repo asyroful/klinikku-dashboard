@@ -11,6 +11,7 @@ import addMedicine from '../pages/medicine/addMedicine'
 import editMedicine from '../pages/medicine/editMedicine'
 import patientData from '../pages/patient/patientData'
 import addPatientData from '../pages/patient/addPatientData'
+import editPatientData from '../pages/patient/editPatientData'
 import doctorData from '../pages/doctor/doctorData'
 import addDoctorData from '../pages/doctor/addDoctorData'
 import adminData from '../pages/admin/adminData'
@@ -65,6 +66,11 @@ import report from '../pages/report/report'
           name: 'Add Patient Data',
           path: '/patient/add',
           component:addPatientData
+        },
+        {
+          name: 'Edit Patient Data',
+          path: '/patient/edit/:id',
+          component:editPatientData
         },
         {
           name: 'Doctor Data',

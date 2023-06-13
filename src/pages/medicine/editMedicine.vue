@@ -55,7 +55,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
-        });
+        }); 
     },
     updateItem() {
       const itemId = this.$route.params.id; // Mendapatkan ID item dari URL

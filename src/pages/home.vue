@@ -66,7 +66,7 @@
     </div>
   </div>
   <div class="grid grid-cols-2 mt-5 gap-5"> 
-    <div class="p-6 rounded-xl bg-white h-72">
+    <div class="p-6 rounded-xl bg-white h-80">
       <div class="flex justify-between items-center">
         <h3 class="text-xl font-medium">Data Pasien Terakhir</h3>
         <router-link to="/patient">
@@ -115,7 +115,7 @@
         </div>
       </div>
     </div>
-    <div class="p-6 rounded-xl bg-white h-72">
+    <div class="p-6 rounded-xl bg-white h-80">
       <div class="flex justify-between items-center">
         <h3 class="text-xl font-medium">Data Persediaan Obat</h3>
         <router-link to="/medicine">

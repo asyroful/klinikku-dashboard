@@ -14,10 +14,13 @@ import addPatientData from '../pages/patient/addPatientData'
 import editPatientData from '../pages/patient/editPatientData'
 import doctorData from '../pages/doctor/doctorData'
 import addDoctorData from '../pages/doctor/addDoctorData'
+import editDoctorData from '../pages/doctor/editDoctorData'
 import adminData from '../pages/admin/adminData'
 import addAdminData from '../pages/admin/addAdminData'
+import editAdminData from '../pages/admin/editAdminData'
 import pharmacistData from '../pages/pharmacist/pharmacistData'
 import addPharmacistData from '../pages/pharmacist/addPharmacistData'
+import editPharmacistData from '../pages/pharmacist/editPharmacistData'
 import report from '../pages/report/report'
 
   const routes = [
@@ -83,6 +86,11 @@ import report from '../pages/report/report'
           component:addDoctorData
         },
         {
+          name: 'Edit Doctor Data',
+          path: '/doctor/edit/:id',
+          component:editDoctorData
+        },
+        {
           name: 'Admin Data',
           path: '/admin',
           component:adminData
@@ -93,6 +101,11 @@ import report from '../pages/report/report'
           component:addAdminData
         },
         {
+          name: 'Edit Admin Data',
+          path: '/admin/edit/:id',
+          component:editAdminData
+        },
+        {
           name: 'Pharmacist Data',
           path: '/pharmacist',
           component:pharmacistData
@@ -101,6 +114,11 @@ import report from '../pages/report/report'
           name: 'Add Pharmacist Data',
           path: '/pharmacist/add',
           component:addPharmacistData
+        },
+        {
+          name: 'Edit Pharmacist Data',
+          path: '/pharmacist/edit/:id',
+          component:editPharmacistData
         },
         {
           name: 'Report',

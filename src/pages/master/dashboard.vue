@@ -45,7 +45,7 @@
               </svg>
             </div>
             <div class="pl-4 flex flex-col" v-show="showObat">
-              <router-link to="/" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+              <router-link to="/receipt" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Racikan Obat
               </router-link>
               <router-link to="/medicine" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">

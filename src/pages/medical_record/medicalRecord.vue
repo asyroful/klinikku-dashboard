@@ -91,11 +91,11 @@
                         {{ patient.diagnose }}
                       </td>
                       <td class="px-3 py-4">
-                          lorem ipsum
+                        <button @click="openModal(patient.id)">lihat</button>
                       </td>
                       <td class="px-3 py-4">
                         <div class="flex gap-1">
-                          <div class="p-1 rounded bg-primary cursor-pointer">
+                          <div @click="editItem(patient.id)" class="p-1 rounded bg-primary cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M5.79375 13.4999H3C2.86739 13.4999 2.74022 13.4473 2.64645 13.3535C2.55268 13.2597 2.5 13.1326 2.5 12.9999V10.2062C2.49978 10.1413 2.51236 10.0769 2.53702 10.0169C2.56169 9.95682 2.59796 9.90222 2.64375 9.85619L10.1438 2.3562C10.1903 2.30895 10.2457 2.27144 10.3069 2.24583C10.3681 2.22022 10.4337 2.20703 10.5 2.20703C10.5663 2.20703 10.632 2.22022 10.6931 2.24583C10.7543 2.27144 10.8097 2.30895 10.8563 2.3562L13.6438 5.1437C13.691 5.19022 13.7285 5.24568 13.7541 5.30684C13.7797 5.368 13.7929 5.43364 13.7929 5.49995C13.7929 5.56625 13.7797 5.63189 13.7541 5.69305C13.7285 5.75421 13.691 5.80967 13.6438 5.85619L6.14375 13.3562C6.09773 13.402 6.04313 13.4383 5.98307 13.4629C5.92301 13.4876 5.85868 13.5002 5.79375 13.4999Z" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M8.5 4L12 7.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -103,7 +103,7 @@
                               <path d="M5.96875 13.4688L2.53125 10.0312" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                           </div>
-                          <div @click="deletePatient(patient.id)" class="p-1 rounded bg-red-600 cursor-pointer">
+                          <div @click="deleteItem(patient.id)" class="p-1 rounded bg-red-600 cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M13.5 3.5H2.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M6.5 6.5V10.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -114,10 +114,48 @@
                           </div>
                         </div>
                       </td>
-                  </tr>
-              </tbody>
-          </table>
+                    </tr>
+                  </tbody>
+                </table>
+                <div v-if="modalActive">
+                  <div v-if="selectedPatient">
+                    <transition name="modal-animation">
+                      <div class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                        <div class="modal-overlay absolute z-50 w-full h-full bg-gray-900 opacity-50"></div>
+                        <div class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                          <div class="modal-content py-4 text-left px-6">
+                            <li v-for="drug in selectedPatient.normal_drugs" :key="drug.name">
+                              {{ drug.name }}
+                            </li>
+                          <div class="flex justify-center pt-2">
+                            <button @click="closeModal" class="px-4 bg-transparent p-3 rounded-lg text-red-600 hover:bg-gray-100 hover:text-red-400 mr-2">Close</button>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    </transition>
+                  </div>
+                </div>
+          <div class="flex flex-col items-center my-4">
+            <!-- Help text -->
+            <span class="text-sm text-gray-700 dark:text-gray-400">
+                Showing <span class="font-semibold text-gray-900 dark:text-white">{{ currentPage }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ totalPages }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span> Entries
+            </span>
+            <!-- Buttons -->
+            <div class="inline-flex mt-2 xs:mt-0">
+                <button @click="previousPage" :disabled="currentPage === 1" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Prev
+                </button>
+                <button @click="nextPage" :disabled="currentPage === totalPages" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Next
+                </button>
+            </div>
+          </div>
+          <div v-if="successMessage" class="fixed bottom-0 right-0 mb-4 mr-4 bg-green-500 text-white py-2 px-4 rounded">
+            {{ successMessage }}
+          </div>
         </div>
+        
         <div v-else>
           <p class="py-32 text-center">Tidak ada rekam medis yang tercatat</p>
         </div>
@@ -129,39 +167,109 @@
 
 <script>
 import axios from 'axios'
+// import Modal from "@/components/Modal.vue";
+// import { ref } from "vue";
 // import { useRouter } from 'vue-router';
 export default {
   data() {
     return {
       search: '',
-      patients: []
+      patients: [],
+      modalActive: false,
+      selectedPatient: null,
+      currentPage: 1, // Halaman saat ini
+      totalPages: 0, // Total halaman
+      total: 0,
+      successMessage: '',
+    }
+  },
+  // components: {
+  //   Modal,
+  // },
+  
+  // setup() {
+  //   const modalActive = ref(false);
+  //   const toggleModal = () => {
+  //     modalActive.value = !modalActive.value;
+  //   };
+  //   const close = () => {
+  //     modalActive.value = !modalActive.value
+  //   }
+  //   return { modalActive, toggleModal, close };
+  // },
+  mounted() {
+    this.fetchItems();
+  },
+  created() {
+    // Periksa apakah ada pesan sukses dalam LocalStorage
+    const successMessage = localStorage.getItem("successMessage");
+    if (successMessage) {
+      // Tampilkan notifikasi
+      this.successMessage = successMessage
+      setTimeout(() => {
+        this.successMessage = ''; // Sembunyikan notifikasi setelah beberapa detik
+      }, 3000);
+      localStorage.removeItem("successMessage");
     }
   },
   methods: {
-    deletePatient(id){
-      let deletePatientList = this.patients.filter((e) => e.id != id);
-      this.patients = deletePatientList;
-    }
-  },
-  computed : {
-    filteredPatient: function() {
-      return this.patients.filter(patient => 
-        patient.name.toLowerCase().includes(this.search.toLowerCase())
-      );
-    },
-  },
-
-  async mounted() {
-    const token = localStorage.token
-      axios.get('record', {headers: { "Authorization": `Bearer ${token}` }})
+    fetchItems(){
+      const token = localStorage.token
+      axios.get(`record?page=${this.currentPage}`, {headers: { "Authorization": `Bearer ${token}` }})
         .then(response => {
           console.log(response)
           this.patients = response.data.data;
+          this.totalPages = response.data.meta.last_page;
+          this.total = response.data.meta.total;
         })
         .catch(error => {
           console.error(error);
         });
-  }
+    },
+    deleteItem(id){
+      const token = localStorage.token
+      // Menghapus item dengan ID tertentu dari API
+      axios.delete(`record/${id}`, {headers: { "Authorization": `Bearer ${token}` }})
+        .then((response) => {
+          console.log(response)
+          this.toggleModal();
+          this.successMessage = response.data.message; // Tampilkan notifikasi "Berhasil dihapus"
+          setTimeout(() => {
+            this.successMessage = ''; // Sembunyikan notifikasi setelah beberapa detik
+          }, 3000);
+          this.fetchItems(); // Memuat kembali daftar item setelah menghapus
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      // if (window.confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+      // }
+    },
+    editItem(id) {
+      // Navigasi ke halaman edit dengan menggunakan ID item
+      this.$router.push({ name: 'Edit Trash', params: { id: id } });
+    },
+    openModal(patientId) {
+      this.selectedPatient = this.patients.find(patient => patient.id === patientId);
+      this.modalActive = true;
+    },
+    closeModal() {
+      this.modalActive = false;
+      this.selectedPatientId = null;
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+        this.fetchItems();
+      }
+    },
+    previousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+        this.fetchItems();
+      }
+    },
+  },
 }
 </script>
 

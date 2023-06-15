@@ -2,37 +2,42 @@
   <div class="bg-white rounded-xl p-6">
     <h3 class="text-2xl font-medium text-left py-2">Tambah Rekam Medis</h3>
     <div class="py-6">
-      <form @submit.prevent="addData" class="space-y-4 md:space-y-6">
+      <form @submit.prevent="handleSubmit" class="space-y-4 md:space-y-6">
         <div>
           <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-          <input v-model="form.name" type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis nama pasien disini" required="">
-        </div>
-        <div>
-          <label for="complaint" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keluhan</label>
-          <textarea v-model="form.complaint" name="complaint" id="" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis keluhan pasien disini"></textarea>
-        </div>
-        <div>
-          <label for="doctor" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Dokter</label>
-          <select v-model="form.doctor" id="doctor" placeholder="Pilih dokter anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="L">dr.Irsyad Musthofa</option>
-            <option value="P">drg. Rina Kurniawati</option>
+          <select id="patient" v-model="selectedPatient" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama pasien disini">
+            <option v-for="patient in patients" :key="patient.id" :value="patient.id">
+              {{ patient.name }}
+            </option>
           </select>
         </div>
         <div>
-          <label for="diagnose" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diagnosa</label>
-          <textarea v-model="form.diagnose" name="diagnose" id="" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis diagnosa pasien disini"></textarea>
+          <label for="complaint" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Keluhan</label>
+          <textarea v-model="complaint" name="complaint" id="" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis keluhan pasien disini"></textarea>
         </div>
-        <div @change="normal = !normal">
+        <div>
+          <label for="doctor" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Dokter</label>
+          <input v-model="doctor" type="text" name="doctor" id="doctor" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" readonly>
+        </div>
+        <div>
+          <label for="diagnose" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diagnosa</label>
+          <textarea v-model="diagnose" name="diagnose" id="" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis diagnosa pasien disini"></textarea>
+        </div>
+        <div>
           <label for="medicine" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Obat</label>
-          <select v-model="form.medicine" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <select v-model="selectedJenisObat" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             <option value="normal">Obat Normal</option>
             <option value="racikan">Obat Racikan</option>
           </select>
         </div>
-        <div v-if="normal" class="flex gap-3">
+        <div v-if="selectedJenisObat === 'racikan'" class="flex gap-3">
           <div class="w-64">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Obat</label>
-            <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <select id="drug" v-model="selectedDrug" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+              <option v-for="drug in drugs" :key="drug.id" :value="drug.id">
+                {{ drug.name }}
+              </option>
+            </select>
           </div>
           <div class="w-32">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dosis</label>
@@ -40,7 +45,7 @@
           </div>
           <div class="w-48">
             <label for="medicine" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Obat</label>
-            <select v-model="form.medicine" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <select v-model="medicine" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               <option value="saleb">Saleb</option>
               <option value="sirup">Sirup</option>
             </select>
@@ -60,20 +65,25 @@
             </div>
           </button>
         </div>
-        <div v-else class="flex gap-3">
+        <div v-else-if="selectedJenisObat === 'normal'" class="flex gap-3">
+          
           <div class="w-2/5">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Obat</label>
-            <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <select id="drug" v-model="selectedDrug" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+              <option v-for="drug in drugs" :key="drug.id" :value="drug.id">
+                {{ drug.name }}
+              </option>
+            </select>
           </div>
           <div class="w-44">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Obat</label>
-            <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <input v-model="normal_drugs.amount" type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
           </div>
           <div class="w-1/3">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aturan Pakai</label>
             <div class="flex gap-3">
-              <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-              <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+              <input v-model="normal_drugs.times" type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+              <input v-model="normal_drugs.dd" type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
           </div>
           <button class="mt-5">
@@ -99,41 +109,94 @@
 
 <script>
 import axios from 'axios'
-import  {mapGetters} from 'vuex'
 
 export default {
   data() {
     return {
-      form: {
-        name : '',
-        complaint: '',
-        doctor: '',
-        medicine: '',
-        createdAt: '',
-      },
+      complaint: '',
+      diagnose: '',
+      patients: [],
+      selectedPatient: '',
+      doctor: '',
+      drugs: [],
+      selectedDrug: '',
+      selectedJenisObat: 'normal',
+      normal_drugs: [{
+        amount: '',
+        times: '',
+        dd: '',
+      }]
     };
   },
-  computed :{
-    ...mapGetters({token: 'getToken'}),
+  mounted() {
+    this.fetchPatients(); // Panggil method untuk mengambil data pasien saat komponen dimuat
+    this.fetchDoctors(); // Panggil method untuk mengambil data pasien saat komponen dimuat
+    this.fetchDrugs(); // Panggil method untuk mengambil data pasien saat komponen dimuat
   },
   methods: {
-    async addData() {
+    fetchPatients() {
+      const token = localStorage.token
+        // Mengambil data pasien dari API menggunakan axios atau metode lainnya
+        axios.get('/patient', {headers: { "Authorization": `Bearer ${token}` }})
+          .then(response => {
+            this.patients = response.data.data; // Menyimpan data pasien ke dalam array patients
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      },
+    fetchDoctors() {
+      const token = localStorage.token
+        // Mengambil data pasien dari API menggunakan axios atau metode lainnya
+        axios.get('/me', {headers: { "Authorization": `Bearer ${token}` }})
+          .then(response => {
+            console.log(response)
+            this.doctor = response.data.data.name; // Menyimpan data pasien ke dalam array patients
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      },
+    fetchDrugs() {
+      const token = localStorage.token
+        // Mengambil data pasien dari API menggunakan axios atau metode lainnya
+        axios.get('/drug', {headers: { "Authorization": `Bearer ${token}` }})
+          .then(response => {
+            this.drugs = response.data.data; // Menyimpan data pasien ke dalam array patients
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      },
+    handleSubmit(event) {
       event.preventDefault();
-
-      const token = this.token
-      const config = {
-        headers: { Authorization: `Bearer ${token}` },
-      };
-
-      const data = { title: this.newItem }; // Data baru yang akan ditambahkan
+      
+        const data = { 
+          patient_id: this.selectedPatient,
+          complaint: this.complaint,
+          doctor_id: this.doctor,
+          diagnose: this.diagnose,
+          normal_drugs: [{
+            id: this.selectedDrug,
+            amount: this.normal_drugs.amount,
+            times: this.normal_drugs.times,
+            dd: this.normal_drugs.dd,
+          }]
+        }; // Data baru yang akan ditambahkan
+        const token = localStorage.token
 
       axios
-        .post('https://api.example.com/data', data, config) // Ganti dengan URL API yang sesuai
+        .post('record', data, {headers: { "Authorization": `Bearer ${token}` }}) // Ganti dengan URL API yang sesuai
         .then(() => {
           this.$router.push('/medical-record'); // Mengarahkan kembali ke halaman utama setelah menyimpan data
         })
         .catch(error => {
           console.error(error);
+          if (error.response && error.response.data && error.response.data.message) {
+            this.errorMessage = error.response.data.message; // Menyimpan pesan kesalahan dari respons API
+          } else {
+            this.errorMessage = 'Terjadi kesalahan saat menyimpan data.'; // Menyimpan pesan kesalahan umum
+          }
         });
     }
   }

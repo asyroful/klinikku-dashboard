@@ -6,6 +6,7 @@ import register from '../pages/master/register'
 import home from '../pages/home'
 import medicalRecord from '../pages/medical_record/medicalRecord'
 import addMedicalRecord from '../pages/medical_record/addMedicalRecord'
+import receipt from '../pages/medicine/receipt'
 import medicine from '../pages/medicine/medicine'
 import addMedicine from '../pages/medicine/addMedicine'
 import editMedicine from '../pages/medicine/editMedicine'
@@ -44,6 +45,11 @@ import report from '../pages/report/report'
           name: 'Add Medical Record',
           path: '/medical-record/add',
           component:addMedicalRecord
+        },
+        {
+          name: 'Receipt',
+          path: '/receipt',
+          component:receipt
         },
         {
           name: 'Medicine',

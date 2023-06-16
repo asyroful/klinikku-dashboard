@@ -23,17 +23,11 @@
           <label for="diagnose" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Diagnosa</label>
           <textarea v-model="diagnose" name="diagnose" id="" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tulis diagnosa pasien disini"></textarea>
         </div>
-        <div>
-          <label for="medicine" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Obat</label>
-          <select v-model="selectedJenisObat" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-            <option value="normal">Obat Normal</option>
-            <option value="racikan">Obat Racikan</option>
-          </select>
-        </div>
-        <div v-if="selectedJenisObat === 'racikan'" class="flex gap-3">
+        <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Obat Racikan</label>
+        <div v-for="(mix, index) in mix_drugs" :key="index" class="flex gap-3">
           <div class="w-64">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Obat</label>
-            <select id="drug" v-model="selectedDrug" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+            <select id="drug" v-model="mix.selectedDrugMix" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
               <option v-for="drug in drugs" :key="drug.id" :value="drug.id">
                 {{ drug.name }}
               </option>
@@ -41,35 +35,43 @@
           </div>
           <div class="w-32">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dosis</label>
-            <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <input v-model="mix.amount" type="number" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
           </div>
           <div class="w-48">
             <label for="medicine" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Obat</label>
-            <select v-model="medicine" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option value="saleb">Saleb</option>
-              <option value="sirup">Sirup</option>
+            <select v-model="mix.selectedConcoction" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option v-for="concoction in concoctions" :key="concoction.id" :value="concoction.id">
+                {{ concoction.name }}
+              </option>
             </select>
           </div>
           <div class="w-1/3">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aturan Pakai</label>
             <div class="flex gap-3">
-              <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-              <input type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+              <input v-model="mix.times" type="number" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+              <input v-model="mix.dd" type="number" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
           </div>
-          <button class="mt-5">
+          <button @click="removeDrugMix(index)" class="mt-5">
             <div class="rounded-full border border-black p-2">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 7C14 7.15471 13.9385 7.30308 13.8291 7.41248C13.7197 7.52188 13.5714 7.58333 13.4167 7.58333H7.58333V13.4167C7.58333 13.5714 7.52188 13.7197 7.41248 13.8291C7.30308 13.9385 7.15471 14 7 14C6.84529 14 6.69692 13.9385 6.58752 13.8291C6.47812 13.7197 6.41667 13.5714 6.41667 13.4167V7.58333H0.583333C0.428624 7.58333 0.280251 7.52188 0.170854 7.41248C0.0614583 7.30308 0 7.15471 0 7C0 6.84529 0.0614583 6.69692 0.170854 6.58752C0.280251 6.47812 0.428624 6.41667 0.583333 6.41667H6.41667V0.583333C6.41667 0.428624 6.47812 0.280251 6.58752 0.170854C6.69692 0.0614583 6.84529 0 7 0C7.15471 0 7.30308 0.0614583 7.41248 0.170854C7.52188 0.280251 7.58333 0.428624 7.58333 0.583333V6.41667H13.4167C13.5714 6.41667 13.7197 6.47812 13.8291 6.58752C13.9385 6.69692 14 6.84529 14 7Z" fill="black"/>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.5 3.5H2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.5 3.5V13C12.5 13.1326 12.4473 13.2598 12.3536 13.3536C12.2598 13.4473 12.1326 13.5 12 13.5H4C3.86739 13.5 3.74021 13.4473 3.64645 13.3536C3.55268 13.2598 3.5 13.1326 3.5 13V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10.5 3.5V2.5C10.5 2.23478 10.3946 1.98043 10.2071 1.79289C10.0196 1.60536 9.76522 1.5 9.5 1.5H6.5C6.23478 1.5 5.98043 1.60536 5.79289 1.79289C5.60536 1.98043 5.5 2.23478 5.5 2.5V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
           </button>
         </div>
-        <div v-else-if="selectedJenisObat === 'normal'" class="flex gap-3">
-          
+        <div @click="addDrugMix" class="w-full text-white bg-primary hover:bg-hover focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          Tambah Obat
+        </div>
+        <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Obat Normal</label>
+        <div v-for="(normal, index) in normal_drugs" :key="index" class="flex gap-3">
           <div class="w-2/5">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Obat</label>
-            <select id="drug" v-model="selectedDrug" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+            <select id="drug" v-model="normal.selectedDrugNormal" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
               <option v-for="drug in drugs" :key="drug.id" :value="drug.id">
                 {{ drug.name }}
               </option>
@@ -77,27 +79,29 @@
           </div>
           <div class="w-44">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Obat</label>
-            <input v-model="normal_drugs.amount" type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+            <input v-model="normal.amount" type="number" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
           </div>
           <div class="w-1/3">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aturan Pakai</label>
             <div class="flex gap-3">
-              <input v-model="normal_drugs.times" type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-              <input v-model="normal_drugs.dd" type="text" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+              <input v-model="normal.times" type="number" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+              <input v-model="normal.dd" type="number" name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
             </div>
           </div>
-          <button class="mt-5">
+          <button @click="removeDrugNormal(index)" class="mt-5">
             <div class="rounded-full border border-black p-2">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 7C14 7.15471 13.9385 7.30308 13.8291 7.41248C13.7197 7.52188 13.5714 7.58333 13.4167 7.58333H7.58333V13.4167C7.58333 13.5714 7.52188 13.7197 7.41248 13.8291C7.30308 13.9385 7.15471 14 7 14C6.84529 14 6.69692 13.9385 6.58752 13.8291C6.47812 13.7197 6.41667 13.5714 6.41667 13.4167V7.58333H0.583333C0.428624 7.58333 0.280251 7.52188 0.170854 7.41248C0.0614583 7.30308 0 7.15471 0 7C0 6.84529 0.0614583 6.69692 0.170854 6.58752C0.280251 6.47812 0.428624 6.41667 0.583333 6.41667H6.41667V0.583333C6.41667 0.428624 6.47812 0.280251 6.58752 0.170854C6.69692 0.0614583 6.84529 0 7 0C7.15471 0 7.30308 0.0614583 7.41248 0.170854C7.52188 0.280251 7.58333 0.428624 7.58333 0.583333V6.41667H13.4167C13.5714 6.41667 13.7197 6.47812 13.8291 6.58752C13.9385 6.69692 14 6.84529 14 7Z" fill="black"/>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13.5 3.5H2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M6.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.5 3.5V13C12.5 13.1326 12.4473 13.2598 12.3536 13.3536C12.2598 13.4473 12.1326 13.5 12 13.5H4C3.86739 13.5 3.74021 13.4473 3.64645 13.3536C3.55268 13.2598 3.5 13.1326 3.5 13V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10.5 3.5V2.5C10.5 2.23478 10.3946 1.98043 10.2071 1.79289C10.0196 1.60536 9.76522 1.5 9.5 1.5H6.5C6.23478 1.5 5.98043 1.60536 5.79289 1.79289C5.60536 1.98043 5.5 2.23478 5.5 2.5V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
           </button>
         </div>
-        
-        <div>
-          <label for="createdAt" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Periksa</label>
-          <input type="text" name="createdAt" id="createdAt" class="bg-gray-100 border border-gray-300 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block cursor-not-allowed w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="21/03/2023">
+        <div @click="addDrugNormal" class="w-full text-white bg-primary hover:bg-hover focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          Tambah Obat
         </div>
         <div class="grid justify-items-end">
           <button type="submit" class="w-32 text-white bg-primary hover:bg-hover focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Simpan</button>
@@ -119,9 +123,16 @@ export default {
       selectedPatient: '',
       doctor: '',
       drugs: [],
-      selectedDrug: '',
-      selectedJenisObat: 'normal',
+      concoctions: [],
       normal_drugs: [{
+        selectedDrugNormal: null,
+        amount: '',
+        times: '',
+        dd: '',
+      }],
+      mix_drugs: [{
+        selectedDrugMix: null,
+        selectedConcoction: null,
         amount: '',
         times: '',
         dd: '',
@@ -132,8 +143,35 @@ export default {
     this.fetchPatients(); // Panggil method untuk mengambil data pasien saat komponen dimuat
     this.fetchDoctors(); // Panggil method untuk mengambil data pasien saat komponen dimuat
     this.fetchDrugs(); // Panggil method untuk mengambil data pasien saat komponen dimuat
+    this.fetchConcoctions(); // Panggil method untuk mengambil data pasien saat komponen dimuat
   },
   methods: {
+    addDrugMix() {
+      const newDrug = {
+        id: this.mix_drugs.selectedDrugMix,
+        type_concoction_id: this.mix_drugs.selectedConcoction,
+        amount: this.mix_drugs.amount,
+        times: this.mix_drugs.times,
+        dd: this.mix_drugs.dd
+      };
+
+      this.mix_drugs.push(newDrug);
+    },
+    removeDrugMix(index) {
+      this.mix_drugs.splice(index, 1);
+    },
+    addDrugNormal() {
+      const newDrug = {
+        id: this.normal_drugs.selectedDrugNormal,
+        amount: this.normal_drugs.amount,
+        times: this.normal_drugs.times,
+        dd: this.normal_drugs.dd 
+      };
+      this.normal_drugs.push(newDrug);
+    },
+    removeDrugNormal(index) {
+      this.normal_drugs.splice(index, 1);
+    },
     fetchPatients() {
       const token = localStorage.token
         // Mengambil data pasien dari API menggunakan axios atau metode lainnya
@@ -168,20 +206,42 @@ export default {
             console.error(error);
           });
       },
+    fetchConcoctions() {
+      const token = localStorage.token
+        // Mengambil data pasien dari API menggunakan axios atau metode lainnya
+        axios.get('/concoction', {headers: { "Authorization": `Bearer ${token}` }})
+          .then(response => {
+            this.concoctions = response.data.data; // Menyimpan data pasien ke dalam array patients
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      },
     handleSubmit(event) {
       event.preventDefault();
+
+      const normalDrugs = this.normal_drugs.map(drug => ({
+        id: drug.selectedDrugNormal,
+        amount: drug.amount,
+        times: drug.times,
+        dd: drug.dd,
+      }));
+
+      const mixDrugs = this.mix_drugs.map(drug => ({
+        id: drug.selectedDrugMix,
+        type_concoction_id: drug.selectedConcoction,
+        amount: drug.amount,
+        times: drug.times,
+        dd: drug.dd,
+      }));
       
         const data = { 
           patient_id: this.selectedPatient,
           complaint: this.complaint,
           doctor_id: this.doctor,
           diagnose: this.diagnose,
-          normal_drugs: [{
-            id: this.selectedDrug,
-            amount: this.normal_drugs.amount,
-            times: this.normal_drugs.times,
-            dd: this.normal_drugs.dd,
-          }]
+          normal_drugs: normalDrugs,
+          mix_drugs: mixDrugs
         }; // Data baru yang akan ditambahkan
         const token = localStorage.token
 

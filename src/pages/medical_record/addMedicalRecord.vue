@@ -187,7 +187,9 @@ export default {
 
       axios
         .post('record', data, {headers: { "Authorization": `Bearer ${token}` }}) // Ganti dengan URL API yang sesuai
-        .then(() => {
+        .then((response) => {
+          const successMessage = response.data.message;
+          localStorage.setItem("successMessage", successMessage);
           this.$router.push('/medical-record'); // Mengarahkan kembali ke halaman utama setelah menyimpan data
         })
         .catch(error => {

@@ -92,7 +92,7 @@
                               <path d="M5.96875 13.4688L2.53125 10.0312" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                           </div>
-                          <div @click="deletePatient(patient.id)" class="p-1 rounded bg-red-600 cursor-pointer">
+                          <div @click="toggleModal" class="p-1 rounded bg-red-600 cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M13.5 3.5H2.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M6.5 6.5V10.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -103,35 +103,46 @@
                           </div>
                         </div>
                       </td>
+                      <Modal @close="toggleModal" :modalActive="modalActive">
+                        <div class="modal-content">
+                          <p class="text-center">Apakah kamu ingin menghapus item ini?</p>
+                        </div>
+                        <!--Footer-->
+                        <div class="flex justify-center pt-2">
+                            <button @click="close" class="px-4 bg-transparent p-3 rounded-lg text-red-600 hover:bg-gray-100 hover:text-red-400 mr-2">Cancel</button>
+                            <button @click="deleteItem(patient.id)" class="modal-close px-4 bg-red-600 p-3 rounded-lg text-white hover:bg-red-400">Hapus</button>
+                          </div>
+                      </Modal>
                   </tr>  
               </tbody>
           </table>
       </div>
-      
-<div class="flex flex-col items-center mt-4">
-  <!-- Help text -->
-  <span class="text-sm text-gray-700 dark:text-gray-400">
-      Showing <span class="font-semibold text-gray-900 dark:text-white">{{ currentPage }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ totalPages }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span> Entries
-  </span>
-  <!-- Buttons -->
-  <div class="inline-flex mt-2 xs:mt-0">
-      <button @click="previousPage" :disabled="currentPage === 1" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-          Prev
-      </button>
-      <button @click="nextPage" :disabled="currentPage === totalPages" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-          Next
-      </button>
-  </div>
-</div>
-
-
+      <div class="flex flex-col items-center mt-4">
+        <!-- Help text -->
+        <span class="text-sm text-gray-700 dark:text-gray-400">
+            Showing <span class="font-semibold text-gray-900 dark:text-white">{{ currentPage }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ totalPages }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span> Entries
+        </span>
+        <!-- Buttons -->
+        <div class="inline-flex mt-2 xs:mt-0">
+            <button @click="previousPage" :disabled="currentPage === 1" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Prev
+            </button>
+            <button @click="nextPage" :disabled="currentPage === totalPages" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Next
+            </button>
+        </div>
+      </div>
+      <div v-if="successMessage" class="fixed bottom-0 right-0 mb-4 mr-4 bg-primary text-white py-2 px-4 rounded">
+        {{ successMessage }}
+      </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import Modal from "@/components/Modal.vue";
+import { ref } from "vue";
 export default {
   data() {
     return {
@@ -140,10 +151,36 @@ export default {
       currentPage: 1, // Halaman saat ini
       totalPages: 0, // Total halaman
       total: 0,
+      successMessage: '',
     }
+  },
+  components: {
+    Modal,
+  },
+  setup() {
+    const modalActive = ref(false);
+    const toggleModal = () => {
+      modalActive.value = !modalActive.value;
+    };
+    const close = () => {
+      modalActive.value = !modalActive.value
+    }
+    return { modalActive, toggleModal, close };
   },
   mounted() {
     this.fetchItems();
+  },
+  created() {
+    // Periksa apakah ada pesan sukses dalam LocalStorage
+    const successMessage = localStorage.getItem("successMessage");
+    if (successMessage) {
+      // Tampilkan notifikasi
+      this.successMessage = successMessage
+      setTimeout(() => {
+        this.successMessage = ''; // Sembunyikan notifikasi setelah beberapa detik
+      }, 4000);
+      localStorage.removeItem("successMessage");
+    }
   },
   methods: {
     fetchItems(){
@@ -159,18 +196,21 @@ export default {
           console.error(error);
         });
     },
-    deletePatient(id){
-      if (window.confirm('Apakah Anda yakin ingin menghapus item ini?')) {
-        const token = localStorage.token
-        // Menghapus item dengan ID tertentu dari API
-        axios.delete(`patient/${id}`, {headers: { "Authorization": `Bearer ${token}` }})
-          .then(() => {
-            this.fetchItems(); // Memuat kembali daftar item setelah menghapus
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
+    deleteItem(id){
+      const token = localStorage.token
+      // Menghapus item dengan ID tertentu dari API
+      axios.delete(`patient/${id}`, {headers: { "Authorization": `Bearer ${token}` }})
+        .then((response) => {
+          this.toggleModal();
+          this.successMessage = response.data.message; // Tampilkan notifikasi "Berhasil dihapus"
+          setTimeout(() => {
+            this.successMessage = ''; // Sembunyikan notifikasi setelah beberapa detik
+          }, 4000);
+          this.fetchItems(); // Memuat kembali daftar item setelah menghapus
+        })
+        .catch(error => {
+          console.error(error);
+        });
     },
     editItem(id) {
       // Navigasi ke halaman edit dengan menggunakan ID item

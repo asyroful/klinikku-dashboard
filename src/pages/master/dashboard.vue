@@ -209,10 +209,11 @@ export default {
       this.showObat = !this.showObat
     },
     logout (){
-      let token = this.token
+      const token = localStorage.token
       axios.post('logout', { headers: {"Authorization" : `Bearer ${token}`} })
         .then(() => {
-          this.$router.push('/login');
+          localStorage.removeItem('token');
+          this.$router.replace('/login');
         })
         .catch((err) => {
           console.log(err)
@@ -230,34 +231,9 @@ export default {
         });
     },
   },
-  
-  name: 'dashboard',
-  // setup() {
-  //   const message = ref('');
-  //   const router = useRouter();
-
-  //   onMounted(async () => {
-  //     try {
-  //       let token = ""
-  //       axios.get('me', { headers: {"Authorization" : `Bearer ${token}`} })
-  //       .then((response)=>{
-  //         let { token } = response.data.data
-  //         this.$store.commit('setToken', token)
-  //       })
-  //       .catch((er)=>{
-  //         console.log( er, 'error')
-  //       })
-  //       // const {data} = await axios.get('me');
-        
-  //       // message.value = `Hi ${data.name}`;
-  //     }catch (e) {
-  //       router.push('/login')
-  //     }
-  //   })
-  //   return { 
-  //     message
-  //   };
-  // }
+  mounted() {
+    console.log('dashboard mounted')
+  },
 
 }
 </script>

@@ -87,7 +87,9 @@ export default {
       const token = localStorage.token
       // Mengirim perubahan data item ke API
       axios.put(`patient/${itemId}`, this.editedItem, {headers: { "Authorization": `Bearer ${token}` }})
-        .then(() => {
+        .then((response) => {
+          const successMessage = response.data.message;
+          localStorage.setItem("successMessage", successMessage);
           this.$router.push('/patient'); // Navigasi ke halaman utama setelah mengupdate item
         })
         .catch(error => {

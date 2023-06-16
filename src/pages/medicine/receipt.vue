@@ -18,7 +18,29 @@
           </div>
         </form>     
       </div>
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div v-if="isLoading">
+          <div class="w-full p-4 rounded shadow animate-pulse">
+            <div class="items-center mt-4 space-y-3">
+              <div>
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+              <div>
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+              <div>
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+              <div>
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div v-else class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
@@ -49,7 +71,6 @@
                   </tr>
               </thead>
               <tbody>
-                
                   <tr v-for="(receipt, index ) in receipts" :key="receipt.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
                         {{ index+1 }}
@@ -116,6 +137,21 @@
                 </transition>
               </div>
             </div>
+            <div class="flex flex-col items-center my-4">
+                  <!-- Help text -->
+                  <span class="text-sm text-gray-700 dark:text-gray-400">
+                      Showing <span class="font-semibold text-gray-900 dark:text-white">{{ currentPage }}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{ totalPages }}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{ total }}</span> Entries
+                  </span>
+                  <!-- Buttons -->
+                  <div class="inline-flex mt-2 xs:mt-0">
+                      <button @click="previousPage" :disabled="currentPage === 1" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                          Prev
+                      </button>
+                      <button @click="nextPage" :disabled="currentPage === totalPages" class="px-4 py-2 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                          Next
+                      </button>
+                  </div>
+                </div>
       </div>
 
     </div>
@@ -129,6 +165,7 @@ export default {
     return {
       search: '',
       receipts: [],
+      isLoading: true,
       modalActive: false,
       selectedReceipt: null,
       currentPage: 1, // Halaman saat ini
@@ -143,10 +180,13 @@ export default {
   methods: {
     fetchItems(){
       const token = localStorage.token
-      axios.get('receipt', {headers: { "Authorization": `Bearer ${token}` }})
+      axios.get(`receipt?page=${this.currentPage}`, {headers: { "Authorization": `Bearer ${token}` }})
         .then(response => {
           console.log(response)
           this.receipts = response.data.data;
+          this.totalPages = response.data.meta.last_page;
+          this.total = response.data.meta.total;
+          this.isLoading = false;
         })
         .catch(error => {
           console.error(error);

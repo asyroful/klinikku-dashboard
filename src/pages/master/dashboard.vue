@@ -11,7 +11,7 @@
               </svg>
               Dashboard
             </router-link>
-            <router-link to="/medical-record" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+            <router-link to="/medical-record" v-if="!isPharmacist" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
               <svg class="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.71412 1.7948H4.19031C3.34875 1.7948 2.6665 2.46829 2.6665 3.29907V13.829C2.6665 14.6598 3.34875 15.3333 4.19031 15.3333H11.8094C12.6509 15.3333 13.3332 14.6598 13.3332 13.829V3.29907C13.3332 2.46829 12.6509 1.7948 11.8094 1.7948H10.2856V2.54694H11.8094C12.2302 2.54694 12.5713 2.88368 12.5713 3.29907V13.829C12.5713 14.2444 12.2302 14.5811 11.8094 14.5811H4.19031C3.76951 14.5811 3.42841 14.2444 3.42841 13.829V3.29907C3.42841 2.88368 3.76951 2.54694 4.19031 2.54694H5.71412V1.7948Z" fill="currentColor"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.33301 1.79483C5.33301 1.17174 5.84466 0.666626 6.47587 0.666626H9.52348C10.1547 0.666626 10.6663 1.17174 10.6663 1.79483V2.54697C10.6663 3.17008 10.1547 3.67517 9.52348 3.67517H6.47587C5.84466 3.67517 5.33301 3.17008 5.33301 2.54697V1.79483ZM6.47587 1.41876C6.26546 1.41876 6.09491 1.58714 6.09491 1.79483V2.54697C6.09491 2.75466 6.26546 2.92304 6.47587 2.92304H9.52348C9.73388 2.92304 9.90444 2.75466 9.90444 2.54697V1.79483C9.90444 1.58714 9.73388 1.41876 9.52348 1.41876H6.47587Z" fill="currentColor"/>
@@ -45,14 +45,14 @@
               </svg>
             </div>
             <div class="pl-4 flex flex-col" v-show="showObat">
-              <router-link to="/receipt" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+              <router-link to="/receipt" v-if="isPharmacist" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Racikan Obat
               </router-link>
               <router-link to="/medicine" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Resepsi Obat
               </router-link>
             </div>
-            <div active-class="text-primary bg-surface" class="inline-flex relative items-center mt-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out" @click="toggleSideDrop">
+            <div v-if="!isPharmacist" active-class="text-primary bg-surface" class="inline-flex relative items-center mt-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out" @click="toggleSideDrop">
               <svg class="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 8C11.0376 8 13.5 6.65685 13.5 5C13.5 3.34315 11.0376 2 8 2C4.96243 2 2.5 3.34315 2.5 5C2.5 6.65685 4.96243 8 8 8Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M2.5 5V8C2.5 9.65625 4.9625 11 8 11C11.0375 11 13.5 9.65625 13.5 8V5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
@@ -74,17 +74,17 @@
               <router-link to="/patient" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Data Pasien
               </router-link>
-              <router-link to="/doctor" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out"> 
+              <router-link v-if="isAdmin || isSuperadmin" to="/doctor" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out"> 
                 Data Dokter
               </router-link>
-              <router-link to="/admin" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+              <router-link v-if="isAdmin || isSuperadmin" to="/admin" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Data Admin
               </router-link>
-              <router-link to="/pharmacist" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+              <router-link v-if="isAdmin || isSuperadmin" to="/pharmacist" active-class="text-primary" class="inline-flex relative items-center my-1 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
                 Data Apoteker
               </router-link>
             </div>
-            <router-link to="/report" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
+            <!-- <router-link to="/report" active-class="text-primary bg-surface" class="inline-flex relative items-center my-2 py-3 px-4 w-full text-sm font-medium rounded-xl border-gray-200 hover:text-primary focus:text-primary hover:bg-surface focus:bg-surface transition duration-400 ease-in-out">
               <svg class="mr-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M1.4 13.3H9.8C10.1866 13.3 10.5 12.9866 10.5 12.6V1.4C10.5 1.0134 10.1866 0.7 9.8 0.7H1.4C1.0134 0.7 0.7 1.0134 0.7 1.4V12.6C0.7 12.9866 1.0134 13.3 1.4 13.3ZM9.8 14H1.4C0.626801 14 0 13.3732 0 12.6V1.4C0 0.626801 0.626801 0 1.4 0H9.8C10.5732 0 11.2 0.626801 11.2 1.4V12.6C11.2 13.3732 10.5732 14 9.8 14Z" fill="currentColor"/>
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M4.8999 3.15005C4.8999 2.95674 5.0566 2.80005 5.2499 2.80005H9.4499C9.64321 2.80005 9.7999 2.95674 9.7999 3.15005C9.7999 3.34335 9.64321 3.50005 9.4499 3.50005H5.2499C5.0566 3.50005 4.8999 3.34335 4.8999 3.15005Z" fill="currentColor"/>
@@ -97,7 +97,7 @@
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M13.2999 4.54985H12.5999V5.24985H13.2999V4.54985ZM12.5999 3.84985H13.2999C13.6865 3.84985 13.9999 4.16324 13.9999 4.54985V5.94985H11.8999V4.54985C11.8999 4.16324 12.2133 3.84985 12.5999 3.84985Z" fill="currentColor"/>
               </svg>
               Laporan Data
-            </router-link>
+            </router-link> -->
           </div>
         </div>
       </div>
@@ -179,6 +179,7 @@ export default {
   data() {
     return {
       items: [],
+      role: '',
       showDropDown: false,
       showManagementData: false,
       showSide: true,
@@ -186,7 +187,18 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters({token: 'getToken'})
+    isAdmin() {
+      return this.role === 'admin'; // Validasi apakah role adalah 'admin'
+    },
+    isSuperadmin() {
+      return this.role === 'superadmin'; // Validasi apakah role adalah 'superadmin'
+    },
+    isPharmacist() {
+      return this.role === 'pharmacist'; // Validasi apakah role adalah 'pharmacist'
+    },
+    isDoctor() {
+      return this.role === 'doctor'; // Validasi apakah role adalah 'doctor'
+    },
   },
 
   methods: {
@@ -207,6 +219,18 @@ export default {
     // toggle obat 
     toggleObatDrop() {
       this.showObat = !this.showObat
+    },
+    fetchUserRole() {
+      const token = localStorage.token
+      // Panggil API /me untuk mendapatkan data peran pengguna
+      axios.get('/me', {headers: { "Authorization": `Bearer ${token}` }})
+      .then(response => {
+          console.log(response, 'dari dashboard')
+          this.role = response.data.data.role; // Asumsikan response.data.role berisi peran pengguna
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     logout (){
       const token = localStorage.token
@@ -232,6 +256,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchUserRole();
     console.log('dashboard mounted')
   },
 

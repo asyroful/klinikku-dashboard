@@ -125,28 +125,11 @@
             </g>
           </svg>
         </div>
-        <div class="flex gap-1">
-          <div class="mt-1 p-1 rounded-md cursor-pointer hover:bg-primary" @click="toggleDrop">
-            <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.5196 2.91003C9.2096 2.91003 6.5196 5.60003 6.5196 8.91003V11.8C6.5196 12.41 6.2596 13.34 5.9496 13.86L4.7996 15.77C4.0896 16.95 4.5796 18.26 5.8796 18.7C10.1896 20.14 14.8396 20.14 19.1496 18.7C20.3596 18.3 20.8896 16.87 20.2296 15.77L19.0796 13.86C18.7796 13.34 18.5196 12.41 18.5196 11.8V8.91003C18.5196 5.61003 15.8196 2.91003 12.5196 2.91003Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
-              <path d="M14.3699 3.19994C13.1606 2.85553 11.8792 2.85553 10.6699 3.19994C10.9599 2.45994 11.6799 1.93994 12.5199 1.93994C13.3599 1.93994 14.0799 2.45994 14.3699 3.19994V3.19994Z" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M15.5195 19.0601C15.5195 20.7101 14.1695 22.0601 12.5195 22.0601C11.6995 22.0601 10.9395 21.7201 10.3995 21.1801C9.83769 20.6174 9.52132 19.8552 9.51953 19.0601" stroke="black" stroke-width="1.5" stroke-miterlimit="10"/>
-            </svg>
-          </div>
-          <div class="px-1 cursor-pointer rounded-md text-surface hover:bg-hover transition duration-400 ease-in-out">
+        <div class="px-1 cursor-pointer rounded-md text-surface hover:bg-hover transition duration-400 ease-in-out">
+          <div class="flex gap-1">
             <div class="flex items-center justify-center" @click="toggleDrop">
               <svg aria-hidden="true" class="w-10 h-10 fill-current" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path>
-              </svg>
-              <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_180_221)">
-                <path d="M6.50036 6.58596L8.97536 4.11096L9.68236 4.81796L6.50036 7.99996L3.31836 4.81796L4.02536 4.11096L6.50036 6.58596Z" fill="black"/>
-              </g>
-              <defs>
-                <clipPath id="clip0_180_221">
-                <rect width="12" height="12" fill="white" transform="translate(0.5)"/>
-              </clipPath>
-                </defs>
               </svg>
             </div>
             <!-- Drop down -->
@@ -161,8 +144,13 @@
                 </form>
               </div>
             </div>
+            <div class="mt-1 text-black">
+              <p class="font-bold">{{ name }}</p>
+              <p>{{ role }}</p>
+            </div>
           </div>
         </div>
+        
       </div>
       <!-- Main  -->
       <div class="mt-16 bg-surface py-5 px-3">
@@ -180,6 +168,7 @@ export default {
     return {
       items: [],
       role: '',
+      name: '',
       showDropDown: false,
       showManagementData: false,
       showSide: true,
@@ -227,6 +216,7 @@ export default {
       .then(response => {
           console.log(response, 'dari dashboard')
           this.role = response.data.data.role; // Asumsikan response.data.role berisi peran pengguna
+          this.name = response.data.data.name; // Asumsikan response.data.role berisi peran pengguna
         })
         .catch(error => {
           console.log(error);
@@ -247,8 +237,8 @@ export default {
       const token = this.token
       axios.get('me', {headers: { "Authorization": `Bearer ${token}` }})
         .then(response => {
-          console.log(response)
-          this.items = response.data;
+          console.log(response, 'items me')
+          this.items = response.data.data;
         })
         .catch(error => {
           console.error(error);

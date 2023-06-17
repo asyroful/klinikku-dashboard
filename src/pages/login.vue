@@ -1,12 +1,12 @@
 <template>
   <div class="login flex">
     <div class="w-1/2 min-h-screen">
-      <img src="login.png" alt="">
+      <img src="../assets/img/login.png" alt="">
     </div>
     <div class="w-1/2">
       <div class="px-24">
         <div class="py-3 flex flex-col items-center justify-center">
-          <img src="src/assets/img/Logo.png" alt="">
+          <img src="../assets/img/Logo.png" alt="">
         </div>
         <div class="py-16">
           <h1 class="text-left text-black font-semibold text-5xl">Selamat Datang di Klinikku!</h1>

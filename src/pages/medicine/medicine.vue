@@ -157,6 +157,7 @@ export default {
   data() {
     return {
       search: '',
+      role: '',
       isLoading: true,
       medicines: [],
       allMedicine: [],

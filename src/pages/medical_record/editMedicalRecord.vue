@@ -23,7 +23,11 @@
         <div v-for="(mix, index) in editedItem.mix_drugs" :key="index" class="flex gap-3">
           <div class="w-64">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Obat</label>
-            <input id="drug" v-model="mix.name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+            <select id="drug" v-model="mix.id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+              <option v-for="drug in drugs" :key="drug.id" :value="drug.id" :selected="mix.id == drug.id">
+                {{ drug.name }}
+              </option>
+            </select>
           </div>
           <div class="w-32">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dosis</label>
@@ -31,7 +35,11 @@
           </div>
           <div class="w-48">
             <label for="medicine" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Obat</label>
-            <input v-model="mix.type" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">              
+            <select v-model="mix.type_concoction_id" id="medicine" placeholder="Pilih obat anda disini" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <option v-for="concoction in concoctions" :key="concoction.id" :value="concoction.id" :selected="mix.type_concoction_id.id == concoction.id">
+                {{ concoction.name }}
+              </option>
+            </select>
           </div>
           <div class="w-1/3">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Aturan Pakai</label>
@@ -43,11 +51,11 @@
           <button @click="removeDrugMix(index)" class="mt-5">
             <div class="rounded-full border border-black p-2">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.5 3.5H2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12.5 3.5V13C12.5 13.1326 12.4473 13.2598 12.3536 13.3536C12.2598 13.4473 12.1326 13.5 12 13.5H4C3.86739 13.5 3.74021 13.4473 3.64645 13.3536C3.55268 13.2598 3.5 13.1326 3.5 13V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10.5 3.5V2.5C10.5 2.23478 10.3946 1.98043 10.2071 1.79289C10.0196 1.60536 9.76522 1.5 9.5 1.5H6.5C6.23478 1.5 5.98043 1.60536 5.79289 1.79289C5.60536 1.98043 5.5 2.23478 5.5 2.5V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.5 3.5H2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.5 3.5V13C12.5 13.1326 12.4473 13.2598 12.3536 13.3536C12.2598 13.4473 12.1326 13.5 12 13.5H4C3.86739 13.5 3.74021 13.4473 3.64645 13.3536C3.55268 13.2598 3.5 13.1326 3.5 13V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.5 3.5V2.5C10.5 2.23478 10.3946 1.98043 10.2071 1.79289C10.0196 1.60536 9.76522 1.5 9.5 1.5H6.5C6.23478 1.5 5.98043 1.60536 5.79289 1.79289C5.60536 1.98043 5.5 2.23478 5.5 2.5V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
           </button>
@@ -59,7 +67,11 @@
         <div v-for="(normal, index) in editedItem.normal_drugs" :key="index" class="flex gap-3">
           <div class="w-2/5">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Obat</label>
-            <input id="drug" v-model="normal.name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+            <select id="drug" v-model="normal.id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Pilih nama dokter disini">
+              <option v-for="drug in drugs" :key="drug.id" :value="drug.id" :selected="normal.id == drug.id">
+                {{ drug.name }}
+              </option>
+            </select>
           </div>
           <div class="w-44">
             <label for="name" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Obat</label>
@@ -75,11 +87,11 @@
           <button @click="removeDrugNormal(index)" class="mt-5">
             <div class="rounded-full border border-black p-2">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.5 3.5H2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M6.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M9.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12.5 3.5V13C12.5 13.1326 12.4473 13.2598 12.3536 13.3536C12.2598 13.4473 12.1326 13.5 12 13.5H4C3.86739 13.5 3.74021 13.4473 3.64645 13.3536C3.55268 13.2598 3.5 13.1326 3.5 13V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M10.5 3.5V2.5C10.5 2.23478 10.3946 1.98043 10.2071 1.79289C10.0196 1.60536 9.76522 1.5 9.5 1.5H6.5C6.23478 1.5 5.98043 1.60536 5.79289 1.79289C5.60536 1.98043 5.5 2.23478 5.5 2.5V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.5 3.5H2.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M6.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.5 6.5V10.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.5 3.5V13C12.5 13.1326 12.4473 13.2598 12.3536 13.3536C12.2598 13.4473 12.1326 13.5 12 13.5H4C3.86739 13.5 3.74021 13.4473 3.64645 13.3536C3.55268 13.2598 3.5 13.1326 3.5 13V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.5 3.5V2.5C10.5 2.23478 10.3946 1.98043 10.2071 1.79289C10.0196 1.60536 9.76522 1.5 9.5 1.5H6.5C6.23478 1.5 5.98043 1.60536 5.79289 1.79289C5.60536 1.98043 5.5 2.23478 5.5 2.5V3.5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
           </button>
@@ -105,28 +117,13 @@ export default {
         complaint: '',
         diagnose: '',
         patient: '',
-        patients: [],
         selectedPatient: '',
         doctor: '',
-        drugs: [],
-        concoctions: [],
-        normal_drugs: [{
-          selectedDrugNormal: null,
-          name: '',
-          amount: '',
-          times: '',
-          dd: '',
-        }],
-        mix_drugs: [{
-          selectedDrugMix: null,
-          name: '',
-          selectedConcoction: null,
-          type: '',
-          amount: '',
-          times: '',
-          dd: '',
-        }]
-      }
+        normal_drugs: [],
+        mix_drugs: []
+      },
+      drugs: [],
+      concoctions: [],
     };
   },
   created() {
@@ -134,94 +131,66 @@ export default {
     this.fetchItem(itemId);
   },
   mounted() {
-    this.fetchPatients(); // Panggil method untuk mengambil data pasien saat komponen dimuat
-    this.fetchDoctors(); // Panggil method untuk mengambil data pasien saat komponen dimuat
     this.fetchDrugs(); // Panggil method untuk mengambil data pasien saat komponen dimuat
     this.fetchConcoctions(); // Panggil method untuk mengambil data pasien saat komponen dimuat
   },
   methods: {
     addDrugMix() {
       const newDrug = {
-        id: this.mix_drugs.selectedDrugMix,
-        name: this.mix_drugs.name,
-        type_concoction_id: this.mix_drugs.selectedConcoction,
-        type: this.mix_drugs.type,
-        amount: this.mix_drugs.amount,
-        times: this.mix_drugs.times,
-        dd: this.mix_drugs.dd
+        id: this.editedItem.mix_drugs.selectedDrugMix,
+        type_concoction_id: this.editedItem.mix_drugs.type_concoction_id.id,
+        amount: this.editedItem.mix_drugs.amount,
+        times: this.editedItem.mix_drugs.times,
+        dd: this.editedItem.mix_drugs.dd
       };
 
-      this.mix_drugs.push(newDrug);
+      this.editedItem.mix_drugs.push(newDrug);
     },
     removeDrugMix(index) {
-      this.mix_drugs.splice(index, 1);
+      this.editedItem.mix_drugs.splice(index, 1);
     },
     addDrugNormal() {
       const newDrug = {
-        id: this.normal_drugs.selectedDrugNormal,
-        name: this.normal_drugs.name,
-        amount: this.normal_drugs.amount,
-        times: this.normal_drugs.times,
-        dd: this.normal_drugs.dd 
+        id: this.editedItem.normal_drugs.selectedDrugNormal,
+        name: this.editedItem.normal_drugs.name,
+        amount: this.editedItem.normal_drugs.amount,
+        times: this.editedItem.normal_drugs.times,
+        dd: this.editedItem.normal_drugs.dd 
       };
-      this.normal_drugs.push(newDrug);
+      this.editedItem.normal_drugs.push(newDrug);
     },
     removeDrugNormal(index) {
-      this.normal_drugs.splice(index, 1);
+      console.log(index, 'INDEX')
+      this.editedItem.normal_drugs.splice(index, 1);
     },
-    fetchPatients() {
-      const token = localStorage.token
-        // Mengambil data pasien dari API menggunakan axios atau metode lainnya
-        axios.get('/patient', {headers: { "Authorization": `Bearer ${token}` }})
-          .then(response => {
-            this.patients = response.data.data; // Menyimpan data pasien ke dalam array patients
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      },
-    fetchDoctors() {
-      const token = localStorage.token
-        // Mengambil data pasien dari API menggunakan axios atau metode lainnya
-        axios.get('/me', {headers: { "Authorization": `Bearer ${token}` }})
-          .then(response => {
-            console.log(response)
-            this.doctor = response.data.data.name; // Menyimpan data pasien ke dalam array patients
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      },
     fetchDrugs() {
       const token = localStorage.token
         // Mengambil data pasien dari API menggunakan axios atau metode lainnya
         axios.get('/drug', {headers: { "Authorization": `Bearer ${token}` }})
           .then(response => {
-            this.drugs = response.data.data; // Menyimpan data pasien ke dalam array patients
+            this.drugs = response.data.data;
           })
           .catch(error => {
             console.error(error);
           });
-      },
+    },
     fetchConcoctions() {
       const token = localStorage.token
         // Mengambil data pasien dari API menggunakan axios atau metode lainnya
         axios.get('/concoction', {headers: { "Authorization": `Bearer ${token}` }})
           .then(response => {
-            this.concoctions = response.data.data; // Menyimpan data pasien ke dalam array patients
+            this.concoctions = response.data.data;
           })
           .catch(error => {
             console.error(error);
           });
-      },
-      fetchItem(itemId) {
+    },
+    fetchItem(itemId) {
       const token = localStorage.token
       // Mengambil data item dari API menggunakan ID
       axios.get(`record/${itemId}`, {headers: { "Authorization": `Bearer ${token}` }})
         .then(response => {
-          console.log(response, 'cek respon')
           this.editedItem = response.data.data;
-          console.log(this.editedItem, 'cek respon edit')
         })
         .catch(error => {
           console.error(error);
@@ -229,6 +198,7 @@ export default {
     },
     updateItem() {
       const itemId = this.$route.params.id; // Mendapatkan ID item dari URL
+      console.log(this.editedItem, 'KIRIMMMMM')
       const token = localStorage.token
       // Mengirim perubahan data item ke API
       axios.put(`record/${itemId}`, this.editedItem, {headers: { "Authorization": `Bearer ${token}` }})

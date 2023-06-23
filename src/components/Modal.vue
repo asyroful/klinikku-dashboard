@@ -5,7 +5,7 @@
 			<div class="modal-overlay absolute z-50 w-full h-full bg-gray-900 opacity-50"></div>
 			<div class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
 				<div class="modal-content py-4 px-6">
-
+          
         <!--Body-->
         <slot />
 

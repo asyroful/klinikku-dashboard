@@ -147,6 +147,12 @@
                       </td>
                       <Modal @close="toggleModal" :modalActive="modalActive">
                         <div class="modal-content">
+                          <div class="flex justify-center items-center pb-3">
+                            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="36" cy="36" r="36" fill="#FFF4F2"/>
+                              <path d="M32.6667 41.2867L47.9867 25.965L50.3451 28.3217L32.6667 46L22.0601 35.3934L24.4167 33.0367L32.6667 41.2867Z" fill="#CB3A31"/>
+                            </svg>
+                          </div>
                           <p class="text-center">Apakah kamu ingin menghapus item ini?</p>
                         </div>
                         <!--Footer-->
@@ -163,7 +169,7 @@
                     <transition name="modal-animation">
                       <div class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
                         <div class="modal-overlay absolute z-50 w-full h-full bg-gray-900 opacity-50"></div>
-                        <div class="bg-white w-11/12 mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                        <div class="bg-white w-2/5 mx-auto rounded shadow-lg z-50 overflow-y-auto">
                           <div class="modal-content py-4 text-left px-6">
                             <div>
                               <div>
@@ -261,7 +267,7 @@
                                               {{ drug.name }}
                                           </td>
                                           <td class="px-3 py-2">
-                                              {{ drug.type }}
+                                              {{ drug.type_concoction_id.name }}
                                           </td>
                                           <td class="px-3 py-2">
                                               {{ drug.amount }}
@@ -394,8 +400,10 @@ export default {
         });
     },
     fetchItems(){
+      const sortBy = 'date'; // Kolom yang digunakan untuk mengurutkan (misalnya kolom tanggal pembuatan)
+      const sortOrder = 'desc';
       const token = localStorage.token
-      axios.get(`record?page=${this.currentPage}`, {headers: { "Authorization": `Bearer ${token}` }})
+      axios.get(`record?page=${this.currentPage}&sort=${sortBy}&order=${sortOrder}`, {headers: { "Authorization": `Bearer ${token}` }})
       .then(response => {
           console.log(response)
           this.patients = response.data.data;

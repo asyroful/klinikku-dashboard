@@ -127,6 +127,12 @@
                       </td>
                       <Modal @close="toggleModal" :modalActive="modalActive">
                         <div class="modal-content">
+                          <div class="flex justify-center items-center pb-3">
+                            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <circle cx="36" cy="36" r="36" fill="#FFF4F2"/>
+                              <path d="M32.6672 41.2867L47.9872 25.965L50.3455 28.3217L32.6672 46L22.0605 35.3934L24.4172 33.0367L32.6672 41.2867Z" fill="#CB3A31"/>
+                            </svg>
+                          </div>
                           <p class="text-center">Apakah kamu ingin menghapus item ini?</p>
                         </div>
                         <!--Footer-->

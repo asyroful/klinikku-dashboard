@@ -124,19 +124,9 @@ export default {
       doctor: '',
       drugs: [],
       concoctions: [],
-      normal_drugs: [{
-        selectedDrugNormal: null,
-        amount: '',
-        times: '',
-        dd: '',
-      }],
-      mix_drugs: [{
-        selectedDrugMix: null,
-        selectedConcoction: null,
-        amount: '',
-        times: '',
-        dd: '',
-      }]
+      normal_drugs: [],
+      mix_drugs: [],
+      last_page: 1,
     };
   },
   mounted() {
@@ -175,9 +165,10 @@ export default {
     fetchPatients() {
       const token = localStorage.token
         // Mengambil data pasien dari API menggunakan axios atau metode lainnya
-        axios.get('/patient', {headers: { "Authorization": `Bearer ${token}` }})
+        axios.get(`patient?page=${this.last_page}`, {headers: { "Authorization": `Bearer ${token}` }})
           .then(response => {
             this.patients = response.data.data; // Menyimpan data pasien ke dalam array patients
+            this.last_page = response.data.meta.last_page; // Menyimpan data pasien ke dalam array patients
           })
           .catch(error => {
             console.error(error);

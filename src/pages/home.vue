@@ -130,7 +130,7 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Pasien</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ patients.length }}</h1>
+            <h1 class="mt-1 font-bold text-3xl">{{ dashboards.count_patient }}</h1>
           </div>
         </div>
       </div>
@@ -174,7 +174,7 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Rekam Medis</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ items.length }}</h1>
+            <h1 class="mt-1 font-bold text-3xl">{{ totalItems.total }}</h1>
           </div>
         </div>
       </div>
@@ -192,7 +192,7 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Obat</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ medicines.length }}</h1>
+            <h1 class="mt-1 font-bold text-3xl">{{ totalMedicines.total }}</h1>
           </div>
         </div>
       </div>
@@ -298,7 +298,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(latestPatient, index ) in patients" :key="latestPatient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(latestPatient, index ) in dashboards.patients" :key="latestPatient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-2 dark:text-white">
                         {{ index+1 }}
                       </td>
@@ -479,12 +479,6 @@
                         </th>
                         <th scope="col" class="px-3 py-3">
                             <div class="flex items-center">
-                              Tanggal Periksa
-                              <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
-                            </div>
-                        </th>
-                        <th scope="col" class="px-3 py-3">
-                            <div class="flex items-center">
                               Nama Pasien
                               <a href="#"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 320 512"><path d="M27.66 224h264.7c24.6 0 36.89-29.78 19.54-47.12l-132.3-136.8c-5.406-5.406-12.47-8.107-19.53-8.107c-7.055 0-14.09 2.701-19.45 8.107L8.119 176.9C-9.229 194.2 3.055 224 27.66 224zM292.3 288H27.66c-24.6 0-36.89 29.77-19.54 47.12l132.5 136.8C145.9 477.3 152.1 480 160 480c7.053 0 14.12-2.703 19.53-8.109l132.3-136.8C329.2 317.8 316.9 288 292.3 288z"/></svg></a>
                             </div>
@@ -510,21 +504,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(patient, index) in items" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(patient, index) in dashboards.medical_records" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
                           {{ index+1 }}
                       </td>
-                      <td class="px-3 py-4">
-                          {{ patient.date }}
-                      </td>
                       <td scope="row" class="px-3 py-4 dark:text-white">
-                          {{ patient.patient_id }}
+                          {{ patient.patient }}
                       </td>
                       <td class="px-3 py-4">
                           {{ patient.complaint }}
                       </td>
                       <td class="px-3 py-4">
-                        {{ patient.doctor_id }}
+                        {{ patient.doctor }}
                       </td>
                       <td class="px-3 py-4">
                           {{ patient.diagnose }}
@@ -557,7 +548,9 @@ export default {
       patients: [],
       receipts: [],
       medicines: [],
+      totalMedicines: [],
       items: [],
+      totalItems: '',
       admins: [],
       doctors: [],
       dashboards: [],
@@ -575,6 +568,7 @@ export default {
         .then(response => {
           console.log(response)
           this.items = response.data.data;
+          this.totalItems = response.data.meta;
           this.isLoadingContent = false;
         })
         .catch(error => {
@@ -602,6 +596,7 @@ export default {
         .then(response => {
           console.log(response)
           this.medicines = response.data.data;
+          this.totalMedicines = response.data.meta;
           this.isLoadingContent = false;
         })
         .catch(error => {

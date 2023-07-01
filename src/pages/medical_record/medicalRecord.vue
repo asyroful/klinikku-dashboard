@@ -94,7 +94,7 @@
                   </tr>
               </thead>
               <tbody>
-                  <tr v-for="(patient, index ) in patients" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
+                  <tr v-for="(patient, index ) in filteredPatients" :key="patient.id" class="bg-white border-b text-gray-900 dark:bg-gray-800 dark:border-gray-700">
                       <td scope="row" class="px-3 py-4 dark:text-white">
                         {{ index+1 }}
                       </td>
@@ -368,6 +368,13 @@ export default {
     },
     isDoctor() {
       return this.role === 'doctor'; // Validasi apakah role adalah 'doctor'
+    },
+    filteredPatients() {
+      if (this.search) {
+        return this.patients.filter(patient => patient.patient_id.toLowerCase().startsWith(this.search.toLowerCase()));
+      } else {
+        return this.patients;
+      }
     },
   },
   mounted() {

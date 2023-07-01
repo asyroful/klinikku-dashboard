@@ -114,7 +114,7 @@
                               <path d="M5.96875 13.4688L2.53125 10.0312" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                           </div>
-                          <div @click="toggleModal" class="p-1 rounded bg-red-600 cursor-pointer">
+                          <div @click="() => toggleModal(patient.id)" class="p-1 rounded bg-red-600 cursor-pointer">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <path d="M13.5 3.5H2.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
                               <path d="M6.5 6.5V10.5" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
@@ -125,22 +125,24 @@
                           </div>
                         </div>
                       </td>
-                      <Modal @close="toggleModal" :modalActive="modalActive">
-                        <div class="modal-content">
-                          <div class="flex justify-center items-center pb-3">
-                            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                              <circle cx="36" cy="36" r="36" fill="#FFF4F2"/>
-                              <path d="M32.6672 41.2867L47.9872 25.965L50.3455 28.3217L32.6672 46L22.0605 35.3934L24.4172 33.0367L32.6672 41.2867Z" fill="#CB3A31"/>
-                            </svg>
+                      <div v-if="modalActive" class="fixed w-full h-full top-0 left-0 flex items-center justify-center">
+                        <div class="modal-overlay absolute z-50 w-full h-full bg-gray-700 opacity-50"></div>
+                        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+                          <div class="modal-content modal-content py-4 px-6">
+                            <div class="flex justify-center items-center pb-3">
+                              <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="36" cy="36" r="36" fill="#FFF4F2"/>
+                                <path d="M32.6672 41.2867L47.9872 25.965L50.3455 28.3217L32.6672 46L22.0605 35.3934L24.4172 33.0367L32.6672 41.2867Z" fill="#CB3A31"/>
+                              </svg>
+                            </div>
+                            <p class="text-center">Apakah kamu ingin menghapus {{ patientToDelete.name }}?</p>
                           </div>
-                          <p class="text-center">Apakah kamu ingin menghapus item ini?</p>
+                          <div class="flex justify-center py-2">
+                            <button @click="cancelDelete" class="px-4 bg-transparent p-3 rounded-lg text-red-600 hover:bg-gray-100 hover:text-red-400 mr-2">Cancel</button>
+                            <button @click="confirmDelete" class="modal-close px-4 bg-red-600 p-3 rounded-lg text-white hover:bg-red-400">Delete</button>
+                          </div>
                         </div>
-                        <!--Footer-->
-                        <div class="flex justify-center pt-2">
-                            <button @click="close" class="px-4 bg-transparent p-3 rounded-lg text-red-600 hover:bg-gray-100 hover:text-red-400 mr-2">Cancel</button>
-                            <button @click="deleteItem(patient.id)" class="modal-close px-4 bg-red-600 p-3 rounded-lg text-white hover:bg-red-400">Hapus</button>
-                          </div>
-                      </Modal>
+                      </div>
                   </tr>  
               </tbody>
           </table>
@@ -169,8 +171,6 @@
 
 <script>
 import axios from 'axios'
-import Modal from "@/components/Modal.vue";
-import { ref } from "vue";
 export default {
   data() {
     return {
@@ -178,24 +178,13 @@ export default {
       role: '',
       isLoading: true,
       patients: [],
+      modalActive: false,
+      patientToDelete: null,
       currentPage: 1, // Halaman saat ini
       totalPages: 0, // Total halaman
       total: 0,
       successMessage: '',
     }
-  },
-  components: {
-    Modal,
-  },
-  setup() {
-    const modalActive = ref(false);
-    const toggleModal = () => {
-      modalActive.value = !modalActive.value;
-    };
-    const close = () => {
-      modalActive.value = !modalActive.value
-    }
-    return { modalActive, toggleModal, close };
   },
   mounted() {
     this.fetchItems();
@@ -240,12 +229,14 @@ export default {
           console.error(error);
         });
     },
-    deleteItem(id){
-      const token = localStorage.token
+    confirmDelete() {
+      const patientId = this.patientToDelete.id;
+      const token = localStorage.token;
       // Menghapus item dengan ID tertentu dari API
-      axios.delete(`patient/${id}`, {headers: { "Authorization": `Bearer ${token}` }})
+      axios.delete(`patient/${patientId}`, { headers: { "Authorization": `Bearer ${token}` } })
         .then((response) => {
-          this.toggleModal();
+          this.modalActive = false;
+          this.patientToDelete = null;
           this.successMessage = response.data.message; // Tampilkan notifikasi "Berhasil dihapus"
           setTimeout(() => {
             this.successMessage = ''; // Sembunyikan notifikasi setelah beberapa detik
@@ -259,6 +250,14 @@ export default {
     editItem(id) {
       // Navigasi ke halaman edit dengan menggunakan ID item
       this.$router.push({ name: 'Edit Patient Data', params: { id: id } });
+    },
+    toggleModal(patientId) {
+      this.patientToDelete = this.patients.find(patient => patient.id === patientId);
+      this.modalActive = true;
+    },
+    cancelDelete() {
+      this.modalActive = false;
+      this.patientToDelete = null;
     },
     nextPage() {
       if (this.currentPage < this.totalPages) {

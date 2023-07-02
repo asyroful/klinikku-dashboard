@@ -130,7 +130,13 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Pasien</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ dashboards.count_patient }}</h1>
+            <div v-if="isLoadingContent" class="shadow animate-pulse">
+              <div class="items-center">
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </div>
+            <h1 v-else class="mt-1 font-bold text-3xl">{{ dashboards.count_patient }}</h1>
           </div>
         </div>
       </div>
@@ -148,7 +154,13 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Dokter</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ doctors.length }}</h1>
+            <div v-if="isLoadingContent" class="shadow animate-pulse">
+              <div class="items-center">
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </div>
+            <h1 v-else class="mt-1 font-bold text-3xl">{{ doctors.length }}</h1>
           </div>
         </div>
       </div>
@@ -161,7 +173,13 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Admin</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ admins.length }}</h1>
+            <div v-if="isLoadingContent" class="shadow animate-pulse">
+              <div class="items-center">
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </div>
+            <h1 v-else class="mt-1 font-bold text-3xl">{{ admins.length }}</h1>
           </div>
         </div>
       </div>
@@ -174,11 +192,17 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Rekam Medis</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ totalItems.total }}</h1>
+            <div v-if="isLoadingContent" class="shadow animate-pulse">
+              <div class="items-center">
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </div>
+            <h1 v-else class="mt-1 font-bold text-3xl">{{ totalItems.total }}</h1>
           </div>
         </div>
       </div>
-      <div class="py-3 px-2 rounded-xl bg-white h-24">
+      <div v-if="isPharmacist || isDoctor" class="py-3 px-2 rounded-xl bg-white h-24">
         <div class="flex flex-row gap-5">
           <div class="rounded-full bg-surface px-3 py-4">
             <svg width="40" height="30" viewBox="0 0 40 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -192,7 +216,13 @@
           </div>
           <div class="flex flex-col text-left">
             <p class="text-base">Total Obat</p>
-            <h1 class="mt-1 font-bold text-3xl">{{ totalMedicines.total }}</h1>
+            <div v-if="isLoadingContent" class="shadow animate-pulse">
+              <div class="items-center">
+                <div class="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-32 mb-2"></div>
+                <div class="w-full h-4 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+              </div>
+            </div>
+            <h1 v-else class="mt-1 font-bold text-3xl">{{ totalMedicines.total }}</h1>
           </div>
         </div>
       </div>
@@ -661,8 +691,7 @@ export default {
     },
     getGridClass() {
       return {
-        "grid grid-cols-3": this.role === "doctor",
-        "grid grid-cols-4": this.role === "admin" || this.role === "superadmin",
+        "grid grid-cols-3": this.role === "doctor" || this.role === "admin" || this.role === "superadmin",
       };
     },
   }
